@@ -26,8 +26,9 @@
                                         </span>
                                     </a>
 
-                                    <a href="index.php" class="logo logo-light text-center">
-                                        <span class="logo-lg">
+                                    <a href="#" class="logo logo-light text-center">
+                                        <span class="logo-lg">z
+
                                             <img src="{{ asset('assets/images/logo-light.png') }}" alt=""
                                                 height="22">
                                         </span>
@@ -137,7 +138,7 @@
     </footer>
 
     <!-- Authentication js -->
-    <script src="{{ asset('assets/js/pages/authentication.init.js') }}"></script>
+    {{-- <script src="{{ asset('assets/js/pages/authentication.init.js') }}"></script> --}}
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const toggle = document.querySelector('.input-group-text[data-password]');
