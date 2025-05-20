@@ -36,6 +36,7 @@
                                 <table class="table table-centered table-nowrap table-hover mb-0">
                                     <thead>
                                         <tr>
+                                            <th>No.</th>
                                             <th>Role Name</th>
                                             <th>Guard</th>
                                             <th>Created Date</th>
@@ -46,13 +47,14 @@
                                     <tbody>
                                         @foreach ($roles as $role)
                                             <tr>
+                                                <td style="width: 100px">{{ $loop->iteration }}</td>
                                                 <td class="table-user">
-                                                    
-                                                    <img src="{{ asset('assets/images/brands/bitbucket.png') }}"
+                                                    {{ $role->name }}
+                                                    {{-- <img src="{{ asset('assets/images/brands/bitbucket.png') }}"
                                                         alt="table-user" class="me-2 rounded-circle">
                                                     <a href="" class="text-body fw-semibold">
-                                                        {{ $role->name }}
-                                                    </a>
+                                                        
+                                                    </a> --}}
                                                 </td>
                                                 <td>
                                                     {{ $role->guard_name }}
