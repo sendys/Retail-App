@@ -57,7 +57,8 @@
                                 <div class="mb-3">
                                     <label for="password" class="form-label">Password</label>
                                     <div class="input-group input-group-merge">
-                                        <input type="password" id="password" name="password" required autocomplete="current-password" 
+                                        <input type="password" id="password" name="password" required
+                                            autocomplete="current-password"
                                             class="form-control @error('password') is-invalid @enderror"
                                             placeholder="Enter your password">
                                         @error('password')
@@ -73,7 +74,8 @@
 
                                 <div class="mb-3">
                                     <div class="form-check">
-                                        <input type="checkbox" class="form-check-input" name="remember" id="remember" {{ old('remember') ? 'checked' : '' }} >
+                                        <input type="checkbox" class="form-check-input" name="remember" id="remember"
+                                            {{ old('remember') ? 'checked' : '' }}>
                                         <label class="form-check-label" for="checkbox-signin">Remember me</label>
                                     </div>
                                 </div>
@@ -140,22 +142,22 @@
     <!-- Authentication js -->
     {{-- <script src="{{ asset('assets/js/pages/authentication.init.js') }}"></script> --}}
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+        document.addEventListener("DOMContentLoaded", function() {
             const toggle = document.querySelector('.input-group-text[data-password]');
             const passwordInput = document.getElementById('password');
             const eye = toggle.querySelector('.password-eye');
-        
-            toggle.addEventListener('click', function () {
+
+            toggle.addEventListener('click', function() {
                 const isHidden = toggle.getAttribute('data-password') === 'false';
                 passwordInput.setAttribute('type', isHidden ? 'text' : 'password');
                 toggle.setAttribute('data-password', isHidden ? 'true' : 'false');
-        
+
                 // Ganti icon jika perlu (misalnya pakai CSS class atau innerHTML)
                 eye.classList.toggle('show'); // kamu bisa definisikan style berbeda untuk .show
             });
         });
-        </script>
-        
+    </script>
+
 </body>
 
 </html>

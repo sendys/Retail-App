@@ -30,13 +30,22 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name'
+            'name' => 'required|string|unique:roles,name',
+            'guard_name' => 'required|string|unique:roles,guard_name',
         ]);
 
-        Role::create(['name' => $request->name]);
+        Role::create([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name
+        ]);
 
-        return redirect()->route('roles.index')
-                        ->with('success','Role created successfully.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Role created successfully.'
+        ]);
+
+        /* return redirect()->route('roles.index')
+                        ->with('success','Role created successfully.'); */
     }
 
     /**

@@ -69,18 +69,20 @@
                                                     <a href="{{ route('roles.edit', $role->id) }}" class="action-icon"> <i
                                                             class="mdi mdi-square-edit-outline"></i></a>
 
-                                                            <form action="{{ route('roles.destroy', $role->id) }}" method="POST" style="display: inline-block;"> {{-- Atur display agar form tidak memakan lebar penuh jika tidak diinginkan --}}
-                                                                @csrf
-                                                                @method('DELETE')
-                                                                <button type="submit"
-                                                                        class="action-icon" {{-- Terapkan kelas styling Anda di sini --}}
-                                                                        onclick="return confirm('Apakah Anda yakin ingin menghapus role ini?')"
-                                                                        title="Hapus Role" {{-- Atribut title baik untuk aksesibilitas --}}
-                                                                        style="background: none; border: none; padding: 0; cursor: pointer; color: inherit;"> {{-- Contoh styling dasar agar tombol terlihat seperti ikon --}}
-                                                                    <i class="mdi mdi-delete"></i>
-                                                                </button>
-                                                            </form>
-                                                    
+                                                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                                        class="delete-role-form" style="display: inline-block;">
+                                                        {{-- Atur display agar form tidak memakan lebar penuh jika tidak diinginkan --}}
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="button" class="action-icon btn-delete-role"
+                                                            {{-- Terapkan kelas styling Anda di sini --}} data-role-name="{{ $role->name }}"
+                                                            {{-- onclick="return confirm('Apakah Anda yakin ingin menghapus role ini?')" --}} title="Hapus Role" {{-- Atribut title baik untuk aksesibilitas --}}
+                                                            style="background: none; border: none; padding: 0; cursor: pointer; color: inherit;">
+                                                            {{-- Contoh styling dasar agar tombol terlihat seperti ikon --}}
+                                                            <i class="mdi mdi-delete"></i>
+                                                        </button>
+                                                    </form>
+
                                                 </td>
                                             </tr>
                                         @endforeach
@@ -103,9 +105,6 @@
                             </li>
                             <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
                             <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                            <li class="page-item"><a class="page-link" href="javascript: void(0);">3</a></li>
-                            <li class="page-item"><a class="page-link" href="javascript: void(0);">4</a></li>
-                            <li class="page-item"><a class="page-link" href="javascript: void(0);">5</a></li>
                             <li class="page-item">
                                 <a class="page-link" href="javascript: void(0);" aria-label="Next">
                                     <span aria-hidden="true">»</span>
@@ -121,40 +120,116 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="custom-modal" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal fade" id="custom-modal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-header bg-light">
-                    <h4 class="modal-title" id="myCenterModalLabel">Add Contacts</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <h4 class="modal-title" id="addRoleModalLabel">Add Role</h4> <button type="button" class="btn-close"
+                        data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    <form>
+                    {{-- Alert box for JavaScript messages --}}
+                    <div id="formAlert"></div>
+
+                    <form id="roleForm">
+                        @csrf
                         <div class="mb-3">
-                            <label for="name" class="form-label">Name</label>
-                            <input type="text" class="form-control" id="name" placeholder="Enter name">
+                            <label for="name" class="form-label">Role Name</label>
+                            <input type="text" class="form-control" id="name" name="name"
+                                placeholder="Enter name" required>
                         </div>
                         <div class="mb-3">
-                            <label for="exampleInputEmail1" class="form-label">Email address</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" placeholder="Enter email">
+                            <label for="guard_name" class="form-label">Guard Name</label> <input type="text"
+                                class="form-control" id="guard_name" name="guard_name" placeholder="Enter guard (e.g. web)"
+                                required>
                         </div>
-                        <div class="mb-3">
-                            <label for="position" class="form-label">Phone</label>
-                            <input type="text" class="form-control" id="position" placeholder="Enter phone number">
-                        </div>
-                        <div class="mb-3">
-                            <label for="company" class="form-label">Location</label>
-                            <input type="text" class="form-control" id="company" placeholder="Enter location">
-                        </div>
-    
+
                         <div class="text-end">
                             <button type="submit" class="btn btn-success waves-effect waves-light">Save</button>
-                            <button type="button" class="btn btn-danger waves-effect waves-light" onclick="Custombox.close();">Cancel</button>
+                            <button type="button" class="btn btn-danger waves-effect waves-light"
+                                data-bs-dismiss="modal">Cancel</button>
                         </div>
                     </form>
                 </div>
-            </div><!-- /.modal-content -->
-        </div><!-- /.modal-dialog -->
-    </div><!-- /.modal -->
+            </div>
+        </div>
+    </div>
+    <!-- /.modal -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('roleForm');
+            //const alertBox = document.getElementById('formAlert');
+
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const formData = new FormData(form);
+
+                fetch("{{ route('roles.store') }}", {
+                        method: 'POST',
+                        headers: {
+                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
+                            'Accept': 'application/json'
+                        },
+                        body: formData
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Success handling
+                        if (data.success) {
+                            alertBox.innerHTML =
+                                `<div class="alert alert-success">${data.message}</div>`;
+                            form.reset();
+                            // Close modal after short delay
+                            setTimeout(() => {
+                                const modal = bootstrap.Modal.getInstance(document
+                                    .getElementById('custom-modal'));
+                                modal.hide();
+                                alertBox.innerHTML = '';
+                                // Optional: refresh table or data
+                            }, 1000);
+                        }
+                    })
+                    .catch(error => {
+                        // Error handling
+                        error.json().then(err => {
+                            let messages = '';
+                            for (let key in err.errors) {
+                                messages += `<div>${err.errors[key][0]}</div>`;
+                            }
+                            alertBox.innerHTML =
+                                `<div class="alert alert-danger">${messages}</div>`;
+                        });
+                    });
+            });
+        });
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete-role');
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('form');
+                    const roleName = this.getAttribute('data-role-name');
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: `Role "${roleName}" akan dihapus secara permanen.`,
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#d33',
+                        cancelButtonColor: '#3085d6',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            form.submit();
+                        }
+                    });
+                });
+            });
+        });
+    </script>
 
 @endsection
