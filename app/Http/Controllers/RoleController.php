@@ -10,9 +10,16 @@ class RoleController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $roles = Role::all();
+        $query = Role::query();
+
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%' . $request->input('search') . '%');
+        }
+
+        $roles = $query->paginate(request('per_page', 10)); // Paginate with 10 items per page
+
         return view('roles.index', compact('roles'));
     }
 
@@ -30,22 +37,20 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name',
-            'guard_name' => 'required|string|unique:roles,guard_name',
+            'name' => 'required|string|unique:roles,name'
         ]);
 
         Role::create([
-            'name' => $request->name,
-            'guard_name' => $request->guard_name
+            'name' => $request->name
         ]);
 
-        return response()->json([
+        /* return response()->json([
             'success' => true,
             'message' => 'Role created successfully.'
-        ]);
+        ]); */
 
-        /* return redirect()->route('roles.index')
-                        ->with('success','Role created successfully.'); */
+        return redirect()->route('roles.index')
+                        ->with('success','Role created successfully.');
     }
 
     /**

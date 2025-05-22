@@ -7,120 +7,166 @@
     @include('layouts.partials.page-title')
 
     <div class="row">
+        {{--  <div class="col-lg-4">
+            <div class="card">
+                <div class="card-body">
+
+                    <h4 class="header-title">Role Baru</h4>
+                    <p class="sub-header">
+                        Set heights using classes like <code>.input-lg</code>, and set widths using grid
+                        column classes like <code>.col-lg-*</code>.
+                    </p>
+                    <form method="POST" action="{{ route('roles.store') }}" class="parsley-examples">
+                        @csrf
+                    
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Role<span class="text-danger">*</span></label>
+                            <input type="text" id="name" name="name" value="{{ old('name') }}" parsley-trigger="change" required
+                                placeholder="Nama role baru" class="form-control" />
+                        </div>
+                    
+                        <div class="mb-3">
+                            <label for="guard_name" class="form-label">Guard Name<span class="text-danger">*</span></label>
+                            <select class="form-control select2" id="guard_name" name="guard_name" required data-toggle="select2" data-width="100%">
+                                <option value="" disabled {{ old('guard_name') ? '' : 'selected' }}>Pilih Guard</option>
+                                <option value="web" {{ old('guard_name') == 'web' ? 'selected' : '' }}>web</option>
+                                <option value="api" {{ old('guard_name') == 'api' ? 'selected' : '' }}>api</option>
+                            </select>
+                        </div>
+                    
+                        <div class="text-end">
+                            <button class="btn btn-primary waves-effect waves-light" type="submit">Submit</button>
+                            <a href="{{ route('roles.index') }}" class="btn btn-secondary waves-effect">Batal</a>
+                        </div>
+                    </form>
+                </div> <!-- end card-body -->
+            </div> <!-- end card -->
+        </div> --}}
+
         <div class="col-lg-12">
             <div class="card">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row justify-content-between mb-2">
-                            <div class="col-auto">
-                                <form>
-                                    <div class="mb-2">
-                                        <label for="inputPassword2" class="visually-hidden">Search</label>
-                                        <input type="search" class="form-control" id="inputPassword2"
-                                            placeholder="Search...">
-                                    </div>
-                                </form>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="text-sm-end">
-                                    <button type="button" class="btn btn-success waves-effect waves-light mb-2 me-1"><i
-                                            class="mdi mdi-cog"></i></button>
-                                    <button type="button" class="btn btn-danger waves-effect waves-light mb-2"
-                                        data-bs-toggle="modal" data-bs-target="#custom-modal">Add Role</button>
+                <div class="card-body">
+
+                    <h4 class="header-title">Manage Roles</h4>
+                    <p class="sub-header">
+                        Easily extend form controls by adding text, buttons, or button groups on either side
+                        of textual inputs, custom selects, and custom file inputs
+                    </p>
+
+                    <div class="row justify-content-between">
+                        <div class="col-auto">
+                            <form method="GET" action="{{ route('roles.index') }}"
+                                class="d-flex flex-wrap align-items-center">
+                                <label for="inputPassword2" class="visually-hidden">Search</label>
+                                <div class="me-3">
+                                    <input type="search" name="search" class="form-control my-1 my-lg-0" id="search"
+                                        placeholder="Search roles..." value="{{ request('search') }}">
                                 </div>
-                            </div><!-- end col-->
+                                <label for="status-select" class="me-2">Show</label>
+                                <div class="me-sm-3">
+                                    <select class="form-select my-1 my-lg-0" name="per_page" onchange="this.form.submit()">
+                                        <option value="1" {{ request('per_page') == 1 ? 'selected' : '' }}>1</option>
+                                        <option value="2" {{ request('per_page') == 2 ? 'selected' : '' }}>2</option>
+                                        <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
+                                        <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
+                                    </select>
+                                </div>
+                            </form>
                         </div>
+                        <div class="col-auto">
+                            <div class="text-lg-end my-1 my-lg-0">
+                                <button type="button" class="btn btn-success waves-effect waves-light mb-2 me-1"><i
+                                        class="mdi mdi-cog"></i></button>
+                                <a href="{{ route('roles.create') }}"
+                                    class="btn btn-danger waves-effect waves-light mb-2">Add Role</a>
+                            </div>
+                        </div><!-- end col-->
+                    </div>
+                    <br>
+                    @if ($message = Session::get('success'))
+                        <div class="alert alert-success">
+                            <p>{{ $message }}</p>
+                        </div>
+                    @endif
 
-                        @if (@isset($roles) && $roles->count() > 0)
-                            <div class="table-responsive">
-                                <table class="table table-centered table-nowrap table-hover mb-0">
-                                    <thead>
+                    @if (@isset($roles) && $roles->count() > 0)
+                        <div class="table-responsive">
+                            <table class="table table-centered table-nowrap table-hover mb-0">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Role Name</th>
+                                        <th>Guard</th>
+                                        <th>Created Date</th>
+                                        <th>Updated Date</th>
+                                        <th style="width: 82px;">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @forelse ($roles as $key => $role)
                                         <tr>
-                                            <th>No.</th>
-                                            <th>Role Name</th>
-                                            <th>Guard</th>
-                                            <th>Created Date</th>
-                                            <th>Updated Date</th>
-                                            <th style="width: 82px;">Action</th>
+                                            <td style="width: 100px">{{ $roles->firstItem() + $key }}</td>
+                                            <td class="table-user">
+                                                {{ $role->name }}
+                                                {{-- <img src="{{ asset('assets/images/brands/bitbucket.png') }}"
+                                                    alt="table-user" class="me-2 rounded-circle">
+                                                <a href="" class="text-body fw-semibold">
+                                                    
+                                                </a> --}}
+                                            </td>
+                                            <td>
+                                                {{ $role->guard_name }}
+                                            </td>
+                                            <td>
+                                                {{ $role->created_at->format('d M, Y') }}
+                                            </td>
+                                            <td>
+                                                {{ $role->updated_at->format('d M, Y') }}
+                                            </td>
+                                            <td>
+                                                <a href="{{ route('roles.edit', $role->id) }}" class="action-icon"> <i
+                                                        class="mdi mdi-square-edit-outline"></i></a>
+
+                                                <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                                    class="delete-role-form" style="display: inline-block;">
+                                                    {{-- Atur display agar form tidak memakan lebar penuh jika tidak diinginkan --}}
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button type="button" class="action-icon btn-delete-role"
+                                                        {{-- Terapkan kelas styling Anda di sini --}} data-role-name="{{ $role->name }}"
+                                                        {{-- onclick="return confirm('Apakah Anda yakin ingin menghapus role ini?')" --}} title="Hapus Role" {{-- Atribut title baik untuk aksesibilitas --}}
+                                                        style="background: none; border: none; padding: 0; cursor: pointer; color: inherit;">
+                                                        {{-- Contoh styling dasar agar tombol terlihat seperti ikon --}}
+                                                        <i class="mdi mdi-delete"></i>
+                                                    </button>
+                                                </form>
+
+                                            </td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @foreach ($roles as $role)
-                                            <tr>
-                                                <td style="width: 100px">{{ $loop->iteration }}</td>
-                                                <td class="table-user">
-                                                    {{ $role->name }}
-                                                    {{-- <img src="{{ asset('assets/images/brands/bitbucket.png') }}"
-                                                        alt="table-user" class="me-2 rounded-circle">
-                                                    <a href="" class="text-body fw-semibold">
-                                                        
-                                                    </a> --}}
-                                                </td>
-                                                <td>
-                                                    {{ $role->guard_name }}
-                                                </td>
-                                                <td>
-                                                    {{ $role->created_at->format('d M, Y') }}
-                                                </td>
-                                                <td>
-                                                    {{ $role->updated_at->format('d M, Y') }}
-                                                </td>
-                                                <td>
-                                                    <a href="{{ route('roles.edit', $role->id) }}" class="action-icon"> <i
-                                                            class="mdi mdi-square-edit-outline"></i></a>
+                                    @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center">No roles found.</td>
+                                        </tr>
+                                    @endforelse
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="mt-3">
+                            {!! $roles->appends(['search' => request('search'), 'per_page' => request('per_page')])->links('pagination::bootstrap-5') !!}
+                        </div>
+                    @else
+                        <div class="alert alert-info">
+                            No record found.
+                        </div>
+                    @endif
 
-                                                    <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
-                                                        class="delete-role-form" style="display: inline-block;">
-                                                        {{-- Atur display agar form tidak memakan lebar penuh jika tidak diinginkan --}}
-                                                        @csrf
-                                                        @method('DELETE')
-                                                        <button type="button" class="action-icon btn-delete-role"
-                                                            {{-- Terapkan kelas styling Anda di sini --}} data-role-name="{{ $role->name }}"
-                                                            {{-- onclick="return confirm('Apakah Anda yakin ingin menghapus role ini?')" --}} title="Hapus Role" {{-- Atribut title baik untuk aksesibilitas --}}
-                                                            style="background: none; border: none; padding: 0; cursor: pointer; color: inherit;">
-                                                            {{-- Contoh styling dasar agar tombol terlihat seperti ikon --}}
-                                                            <i class="mdi mdi-delete"></i>
-                                                        </button>
-                                                    </form>
-
-                                                </td>
-                                            </tr>
-                                        @endforeach
-
-                                    </tbody>
-                                </table>
-                            </div>
-                        @else
-                            <div class="alert alert-info">
-                                No record found.
-                            </div>
-                        @endif
-
-                        <ul class="pagination pagination-rounded justify-content-end mb-0 mt-2">
-                            <li class="page-item">
-                                <a class="page-link" href="javascript: void(0);" aria-label="Previous">
-                                    <span aria-hidden="true">«</span>
-                                    <span class="visually-hidden">Previous</span>
-                                </a>
-                            </li>
-                            <li class="page-item active"><a class="page-link" href="javascript: void(0);">1</a></li>
-                            <li class="page-item"><a class="page-link" href="javascript: void(0);">2</a></li>
-                            <li class="page-item">
-                                <a class="page-link" href="javascript: void(0);" aria-label="Next">
-                                    <span aria-hidden="true">»</span>
-                                    <span class="visually-hidden">Next</span>
-                                </a>
-                            </li>
-                        </ul>
-
-                    </div> <!-- end card-body-->
-                </div> <!-- end card-->
+                </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div> <!-- end col -->
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="custom-modal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
+    {{--  <div class="modal fade" id="custom-modal" tabindex="-1" role="dialog" aria-labelledby="addRoleModalLabel"
         aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -129,9 +175,7 @@
                         data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body p-4">
-                    {{-- Alert box for JavaScript messages --}}
                     <div id="formAlert"></div>
-
                     <form id="roleForm">
                         @csrf
                         <div class="mb-3">
@@ -154,57 +198,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
     <!-- /.modal -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const form = document.getElementById('roleForm');
-            //const alertBox = document.getElementById('formAlert');
-
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-
-                const formData = new FormData(form);
-
-                fetch("{{ route('roles.store') }}", {
-                        method: 'POST',
-                        headers: {
-                            'X-CSRF-TOKEN': document.querySelector('input[name="_token"]').value,
-                            'Accept': 'application/json'
-                        },
-                        body: formData
-                    })
-                    .then(response => response.json())
-                    .then(data => {
-                        // Success handling
-                        if (data.success) {
-                            alertBox.innerHTML =
-                                `<div class="alert alert-success">${data.message}</div>`;
-                            form.reset();
-                            // Close modal after short delay
-                            setTimeout(() => {
-                                const modal = bootstrap.Modal.getInstance(document
-                                    .getElementById('custom-modal'));
-                                modal.hide();
-                                alertBox.innerHTML = '';
-                                // Optional: refresh table or data
-                            }, 1000);
-                        }
-                    })
-                    .catch(error => {
-                        // Error handling
-                        error.json().then(err => {
-                            let messages = '';
-                            for (let key in err.errors) {
-                                messages += `<div>${err.errors[key][0]}</div>`;
-                            }
-                            alertBox.innerHTML =
-                                `<div class="alert alert-danger">${messages}</div>`;
-                        });
-                    });
-            });
-        });
-    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

@@ -1,13 +1,10 @@
 @include('layouts.partials.main')
+
 <head>
     <?php
-    $title = "Dashboard"; ?>
+    $title = 'Dashboard'; ?>
 
     @include('layouts.partials.title-meta')
-    <!-- Plugins css -->
-    <link href="{{ asset('assets/libs/flatpickr/flatpickr.min.css') }}" rel="stylesheet" type="text/css" />
-    <link href="{{ asset('assets/libs/selectize/css/selectize.bootstrap3.css') }}" rel="stylesheet" type="text/css" />
-
     @include('layouts.partials.head-css')
 
 </head>
@@ -17,7 +14,7 @@
     <!-- Begin page -->
     <div id="wrapper">
         @include('layouts.partials.menu')
-        
+
         <!-- ============================================================== -->
         <!-- Start Page Content here -->
         <!-- ============================================================== -->
@@ -55,9 +52,19 @@
     <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/multiselect/js/jquery.multi-select.js') }}"></script>
+    <script src="{{ asset('assets/libs/select2/js/select2.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/mohithg-switchery/switchery.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/jquery-mockjax/jquery.mockjax.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/devbridge-autocomplete/jquery.autocomplete.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js')}}"></script>
+    <script src="{{ asset('assets/libs/sweetalert2/sweetalert2.all.min.js') }}"></script>
 
-    <!-- Dashboar 1 init js-->
+    <!-- Sweet alert init js-->
+    <script src="{{ asset('assets/js/pages/sweet-alerts.init.js') }}"></script>
     <script src="{{ asset('assets/js/pages/dashboard-1.init.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
 
 </body>
 
