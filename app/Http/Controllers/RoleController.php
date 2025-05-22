@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Spatie\Permission\Models\Role;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class RoleController extends Controller
 {
@@ -44,13 +45,8 @@ class RoleController extends Controller
             'name' => $request->name
         ]);
 
-        /* return response()->json([
-            'success' => true,
-            'message' => 'Role created successfully.'
-        ]); */
-
-        return redirect()->route('roles.index')
-                        ->with('success','Role created successfully.');
+        Alert::toast('Role created successfully.', 'success');
+        return redirect()->route('roles.index');
     }
 
     /**
@@ -58,7 +54,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        return view('roles.show',compact('role'));
+        return view('roles.show', compact('role'));
     }
 
     /**
@@ -66,7 +62,7 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('roles.edit',compact('role'));
+        return view('roles.edit', compact('role'));
     }
 
     /**
@@ -75,13 +71,13 @@ class RoleController extends Controller
     public function update(Request $request, Role $role)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name,'.$role->id
+            'name' => 'required|string|unique:roles,name,' . $role->id
         ]);
 
         $role->update(['name' => $request->name]);
 
         return redirect()->route('roles.index')
-                        ->with('success','Role updated successfully.');
+            ->with('success', 'Role updated successfully.');
     }
 
     /**
@@ -92,6 +88,6 @@ class RoleController extends Controller
         $role->delete();
 
         return redirect()->route('roles.index')
-                        ->with('success','Role deleted successfully.');
+            ->with('success', 'Role deleted successfully.');
     }
 }

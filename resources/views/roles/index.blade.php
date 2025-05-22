@@ -42,7 +42,8 @@
                 </div> <!-- end card-body -->
             </div> <!-- end card -->
         </div> --}}
-
+        @include('sweetalert::alert')
+        
         <div class="col-lg-12">
             <div class="card">
                 <div class="card-body">
@@ -65,8 +66,8 @@
                                 <label for="status-select" class="me-2">Show</label>
                                 <div class="me-sm-3">
                                     <select class="form-select my-1 my-lg-0" name="per_page" onchange="this.form.submit()">
-                                        <option value="1" {{ request('per_page') == 1 ? 'selected' : '' }}>1</option>
-                                        <option value="2" {{ request('per_page') == 2 ? 'selected' : '' }}>2</option>
+                                        <option value="5" {{ request('per_page') == 5 ? 'selected' : '' }}>5</option>
+                                        <option value="10" {{ request('per_page') == 10 ? 'selected' : '' }}>10</option>
                                         <option value="50" {{ request('per_page') == 50 ? 'selected' : '' }}>50</option>
                                         <option value="100" {{ request('per_page') == 100 ? 'selected' : '' }}>100</option>
                                     </select>
@@ -83,11 +84,11 @@
                         </div><!-- end col-->
                     </div>
                     <br>
-                    @if ($message = Session::get('success'))
-                        <div class="alert alert-success">
-                            <p>{{ $message }}</p>
-                        </div>
-                    @endif
+                    {{-- @if(Session::has('success'))
+                        <script>
+                            toastr.success("{{ Session::get('success') }}");
+                        </script>
+                    @endif --}}
 
                     @if (@isset($roles) && $roles->count() > 0)
                         <div class="table-responsive">
