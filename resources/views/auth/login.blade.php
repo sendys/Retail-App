@@ -27,7 +27,7 @@
                                     </a>
 
                                     <a href="#" class="logo logo-light text-center">
-                                        <span class="logo-lg">z
+                                        <span class="logo-lg">
 
                                             <img src="{{ asset('assets/images/logo-light.png') }}" alt=""
                                                 height="22">

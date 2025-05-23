@@ -219,7 +219,7 @@
                             <tbody>
                                 <tr>
                                     <td style="width: 36px;">
-                                        <img src="assets/images/users/user-2.jpg" alt="contact-img" title="contact-img"
+                                        <img src="{{ asset('assets/images/users/user-2.jpg') }}" alt="contact-img" title="contact-img"
                                             class="rounded-circle avatar-sm" />
                                     </td>
 
@@ -250,7 +250,7 @@
 
                                 <tr>
                                     <td style="width: 36px;">
-                                        <img src="assets/images/users/user-3.jpg" alt="contact-img" title="contact-img"
+                                        <img src="{{ asset('assets/images/users/user-3.jpg')}}" alt="contact-img" title="contact-img"
                                             class="rounded-circle avatar-sm" />
                                     </td>
 
@@ -280,7 +280,7 @@
                                 </tr>
                                 <tr>
                                     <td style="width: 36px;">
-                                        <img src="assets/images/users/user-4.jpg" alt="contact-img" title="contact-img"
+                                        <img src="{{ asset('assets/images/users/user-4.jpg')}}" alt="contact-img" title="contact-img"
                                             class="rounded-circle avatar-sm" />
                                     </td>
 

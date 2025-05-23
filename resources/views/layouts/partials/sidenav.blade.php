@@ -4,13 +4,13 @@
     <!-- Brand Logo -->
     <div class="logo-box">
         <!-- Brand Logo Light -->
-        <a href="index.php" class="logo-light">
+        <a href="#" class="logo-light">
             <img src="{{ asset('assets/images/logo-light.png') }}" alt="logo" class="logo-lg">
             <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm">
         </a>
 
         <!-- Brand Logo Dark -->
-        <a href="index.php" class="logo-dark">
+        <a href="#" class="logo-dark">
             <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" class="logo-lg">
             <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm">
         </a>
@@ -71,7 +71,7 @@
                 <div class="collapse" id="menuDashboards">
                     <ul class="sub-menu">
                         <li class="menu-item">
-                            <a href="index.php" class="menu-link">
+                            <a href="#" class="menu-link">
                                 <span class="menu-text">Dashboard 1</span>
                             </a>
                         </li>

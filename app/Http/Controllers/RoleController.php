@@ -45,8 +45,14 @@ class RoleController extends Controller
             'name' => $request->name
         ]);
 
-        Alert::toast('Role created successfully.', 'success');
-        return redirect()->route('roles.index');
+        return response()->json([
+            'success' => true,
+            'message' => 'Role created successfully.',
+            'redirect_url' => route('roles.index')
+        ]);
+        
+        /* session()->flash('success', 'Data berhasil disimpan!');
+        return redirect()->route('roles.index'); */
     }
 
     /**
