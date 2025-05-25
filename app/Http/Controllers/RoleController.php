@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
+/* use Spatie\Permission\Models\Role; */
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use RealRashid\SweetAlert\Facades\Alert;
 
 class RoleController extends Controller
 {
@@ -16,7 +16,7 @@ class RoleController extends Controller
         $query = Role::query();
 
         if ($request->has('search')) {
-            $query->where('name', 'like', '%' . $request->input('search') . '%');
+            $query->where('name', 'like', '%'.$request->input('search').'%');
         }
 
         $roles = $query->paginate(request('per_page', 10)); // Paginate with 10 items per page
@@ -38,21 +38,21 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name'
+            'name' => 'required|string|unique:roles,name',
+            'guard_name' => 'required|string',
         ]);
 
         Role::create([
-            'name' => $request->name
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
         ]);
 
         return response()->json([
             'success' => true,
             'message' => 'Role created successfully.',
-            'redirect_url' => route('roles.index')
+            'redirect_url' => route('roles.index'),
         ]);
-        
-        /* session()->flash('success', 'Data berhasil disimpan!');
-        return redirect()->route('roles.index'); */
+
     }
 
     /**
@@ -60,7 +60,7 @@ class RoleController extends Controller
      */
     public function show(Role $role)
     {
-        return view('roles.show', compact('role'));
+        // return view('roles.show', compact('role'));
     }
 
     /**
@@ -74,16 +74,24 @@ class RoleController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Role $role)
+    public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name,' . $role->id
+            'name' => 'required|string|unique:roles,name,'.$id,
+            'guard_name' => 'required|string',
         ]);
 
-        $role->update(['name' => $request->name]);
+        $role = Role::findOrFail($id);
+        $role->update([
+            'name' => $request->name,
+            'guard_name' => $request->guard_name,
+        ]);
 
-        return redirect()->route('roles.index')
-            ->with('success', 'Role updated successfully.');
+        return response()->json([
+            'success' => true,
+            'message' => 'Role updated successfully.',
+            'redirect_url' => route('roles.index'),
+        ]);
     }
 
     /**

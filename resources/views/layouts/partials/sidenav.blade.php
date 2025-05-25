@@ -4,15 +4,15 @@
     <!-- Brand Logo -->
     <div class="logo-box">
         <!-- Brand Logo Light -->
-        <a href="#" class="logo-light">
-            <img src="{{ asset('assets/images/logo-light.png') }}" alt="logo" class="logo-lg">
-            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm">
+        <a href="{{ route('home') }}" class="logo-light">
+            <img src="{{ asset('assets/images/logo-dark.png') }}" alt="logo" class="logo-lg" width="70">
+            <img src="{{ asset('assets/images/favicon.ico') }}" alt="small logo" class="logo-sm">
         </a>
 
         <!-- Brand Logo Dark -->
-        <a href="#" class="logo-dark">
-            <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" class="logo-lg">
-            <img src="{{ asset('assets/images/logo-sm.png') }}" alt="small logo" class="logo-sm">
+        <a href="{{ route('home') }}" class="logo-dark">
+            <img src="{{ asset('assets/images/logo-dark.png') }}" alt="dark logo" class="logo-lg" width="70">
+            <img src="{{ asset('assets/images/favicon.ico') }}" alt="small logo" class="logo-sm">
         </a>
     </div>
 
@@ -366,24 +366,23 @@
             <li class="menu-item">
                 <a href="#menuAuth" data-bs-toggle="collapse" class="menu-link">
                     <span class="menu-icon"><i data-feather="file-text"></i></span>
-                    <span class="menu-text"> Auth Pages </span>
+                    <span class="menu-text"> User Management </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse collapse-md" id="menuAuth">
                     <ul class="sub-menu">
-                        @hasrole('admin')
-                            <li class="menu-item">
+                        @hasrole(['admin', 'manager'])
+                         <li class="menu-item">
                                 <a href="{{ route('roles.index') }}" class="menu-link">
                                     <span class="menu-text">Add Role</span>
+                                </a>
+                            <li class="menu-item">
+                                <a href="{{ route('user.index') }}" class="menu-link">
+                                    <span class="menu-text">Add User</span>
                                 </a>
                             </li>
                         @endhasrole
 
-                        <li class="menu-item">
-                            <a href="auth-login-2.php" class="menu-link">
-                                <span class="menu-text">Log In 2</span>
-                            </a>
-                        </li>
                         <li class="menu-item">
                             <a href="auth-register.php" class="menu-link">
                                 <span class="menu-text">Register</span>

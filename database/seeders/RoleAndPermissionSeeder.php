@@ -51,7 +51,7 @@ class RoleAndPermissionSeeder extends Seeder
 
         // Buat pengguna contoh dan tetapkan peran (opsional)
         $adminUser = User::firstOrCreate(
-            ['email' => 'admin@example.com'],
+            ['email' => 'admin@mail.com'],
             [
                 'name' => 'Admin User',
                 'password' => bcrypt('password'),
@@ -60,7 +60,7 @@ class RoleAndPermissionSeeder extends Seeder
         $adminUser->assignRole('admin');
 
         $regularUser = User::firstOrCreate(
-            ['email' => 'user@example.com'],
+            ['email' => 'user@mail.com'],
             [
                 'name' => 'Regular User',
                 'password' => bcrypt('password'),

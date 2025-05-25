@@ -1,8 +1,9 @@
 @extends('layouts.app')
+
 @section('content')
     <?php
     $sub_title = 'Tables';
-    $title = 'Manage Roles';
+    $title = 'Manage Users';
     ?>
     @include('layouts.partials.page-title')
 
@@ -12,7 +13,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">Manage Roles</h4>
+                    <h4 class="header-title">Manage Users</h4>
                     <p class="sub-header">
                         Easily extend form controls by adding text, buttons, or button groups on either side
                         of textual inputs, custom selects, and custom file inputs
@@ -20,12 +21,12 @@
 
                     <div class="row justify-content-between">
                         <div class="col-auto">
-                            <form method="GET" action="{{ route('roles.index') }}"
+                            <form method="GET" action="{{ route('user.index') }}"
                                 class="d-flex flex-wrap align-items-center">
                                 <label for="inputPassword2" class="visually-hidden">Search</label>
                                 <div class="me-3">
                                     <input type="search" name="search" class="form-control my-1 my-lg-0" id="search"
-                                        placeholder="Search roles..." value="{{ request('search') }}">
+                                        placeholder="Search..." value="{{ request('search') }}">
                                 </div>
                                 <label for="status-select" class="me-2">Show</label>
                                 <div class="me-sm-3">
@@ -45,10 +46,10 @@
                                 <button type="button" class="btn btn-success waves-effect waves-light mb-2 me-1"><i
                                         class="mdi mdi-cog"></i></button>
                                 {{-- <button type="button" class="btn btn-danger waves-effect waves-light mb-2 me-1"
-                                    data-bs-toggle="modal" data-bs-target="#custom-modal"><i
-                                        class="mdi mdi-plus-circle"></i> Add Customers</button> --}}
-                                <a href="{{ route('roles.create') }}"
-                                    class="btn btn-danger waves-effect waves-light mb-2">Add Role</a>
+                                data-bs-toggle="modal" data-bs-target="#custom-modal"><i
+                                    class="mdi mdi-plus-circle"></i> Add Customers</button> --}}
+                                <a href="{{ route('user.create') }}"
+                                    class="btn btn-danger waves-effect waves-light mb-2">Add User</a>
                             </div>
                         </div><!-- end col-->
                     </div>
@@ -60,46 +61,41 @@
                         </script>
                     @endif
 
-                    @if (@isset($roles) && $roles->count() > 0)
+                    @if (@isset($users) && $users->count() > 0)
                         <div class="table-responsive">
                             <table class="table table-centered table-nowrap table-hover mb-0" id="rolesTable">
                                 <thead>
                                     <tr>
-                                        <th>No.</th>
-                                        <th>Role Name</th>
-                                        <th>Guard</th>
-                                        <th>Created Date</th>
-                                        <th>Updated Date</th>
-                                        <th style="width: 100px;">Action</th>
+                                        <th>No</th>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Roles</th>
+                                        <th width="100">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($roles as $key => $role)
+                                    @forelse ($users as $key => $user)
                                         <tr>
-                                            <td style="width: 100px">{{ $roles->firstItem() + $key }}</td>
-                                            <td class="table-user">
-                                                {{ $role->name }}
-
+                                            <td style="width: 100px">{{ $users->firstItem() + $key }}</td>
+                                            <td>{{ $user->name }}</td>
+                                            <td>{{ $user->email }}</td>
+                                            <td>
+                                                @if (!empty($user->getRoleNames()))
+                                                    @foreach ($user->getRoleNames() as $v)
+                                                        <span class="badge bg-success">{{ $v }}</span>
+                                                    @endforeach
+                                                @endif
                                             </td>
                                             <td>
-                                                {{ $role->guard_name }}
-                                            </td>
-                                            <td>
-                                                {{ $role->created_at->format('d M, Y') }}
-                                            </td>
-                                            <td>
-                                                {{ $role->updated_at->format('d M, Y') }}
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('roles.edit', $role->id) }}" class="action-icon"><i
+                                                <a href="{{ route('user.edit', $user->id) }}" class="action-icon"><i
                                                         class="mdi mdi-square-edit-outline"></i></a>
 
-                                                <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST"
                                                     class="delete-role-form" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="action-icon btn-delete-role"
-                                                        data-role-name="{{ $role->name }}" title="Hapus Role"
+                                                        data-role-name="{{ $user->name }}" title="Hapus Role"
                                                         style="background: none; border: none; padding: 0; cursor: pointer; color: inherit;">
 
                                                         <i class="mdi mdi-delete"></i>
@@ -117,7 +113,7 @@
                             </table>
                         </div>
                         <div class="mt-3">
-                            {!! $roles->appends(['search' => request('search'), 'per_page' => request('per_page')])->links('pagination::bootstrap-5') !!}
+                            {!! $users->appends(['search' => request('search'), 'per_page' => request('per_page')])->links('pagination::bootstrap-5') !!}
                         </div>
                     @else
                         <div class="alert alert-info">
@@ -231,5 +227,4 @@
             });
         });
     </script>
-
 @endsection
