@@ -19,7 +19,7 @@ class UserController extends Controller
         $query = User::query();
 
         if ($request->has('search')) {
-            $searchTerm = '%'.$request->input('search').'%';
+            $searchTerm = '%' . $request->input('search') . '%';
             $query->where(function ($q) use ($searchTerm) {
                 $q->where('name', 'like', $searchTerm)
                     ->orWhere('email', 'like', $searchTerm);
@@ -49,7 +49,7 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'password' => 'required|string|min:8',
             'roles' => 'required',
         ]);
 
@@ -91,26 +91,35 @@ class UserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,'.$user->id,
-            'password' => 'nullable|string|min:8|confirmed',
-            'roles' => 'required',
+            'email' => 'required|string|email|max:255' . $user->id,
+            'password' => 'nullable|string|min:8',
+            'roles' => 'required|array',
         ]);
 
         $input = $request->all();
-        if (! empty($input['password'])) {
+
+        // Hash password jika ada perubahan
+        if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
-            $input = Arr::except($input, ['password']);
+            // Jika password tidak diisi, hapus dari input
+            unset($input['password']);
         }
 
+        // Update user dengan input yang telah diproses
         $user->update($input);
+
+        // Hapus role lama
         DB::table('model_has_roles')->where('model_id', $user->id)->delete();
 
-        $user->assignRole($request->input('roles'));
+        // Assign role baru
+        /* $user->assignRole($request->input('roles')); */
+        $user->syncRoles($request->input('roles'));
 
         return redirect()->route('user.index')
-            ->with('success', 'User updated successfully.');
+            ->with('success', 'User  updated successfully.');
     }
+
 
     /**
      * Remove the specified resource from storage.

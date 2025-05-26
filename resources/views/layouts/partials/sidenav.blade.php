@@ -363,16 +363,16 @@
 
             <li class="menu-title">Custom</li>
 
-            <li class="menu-item">
-                <a href="#menuAuth" data-bs-toggle="collapse" class="menu-link">
-                    <span class="menu-icon"><i data-feather="file-text"></i></span>
-                    <span class="menu-text"> User Management </span>
-                    <span class="menu-arrow"></span>
-                </a>
-                <div class="collapse collapse-md" id="menuAuth">
-                    <ul class="sub-menu">
-                        @hasrole(['admin', 'manager'])
-                         <li class="menu-item">
+            @hasrole(['admin', 'manager'])
+                <li class="menu-item">
+                    <a href="#menuAuth" data-bs-toggle="collapse" class="menu-link">
+                        <span class="menu-icon"><i data-feather="file-text"></i></span>
+                        <span class="menu-text"> User Management </span>
+                        <span class="menu-arrow"></span>
+                    </a>
+                    <div class="collapse collapse-md" id="menuAuth">
+                        <ul class="sub-menu">
+                            <li class="menu-item">
                                 <a href="{{ route('roles.index') }}" class="menu-link">
                                     <span class="menu-text">Add Role</span>
                                 </a>
@@ -381,71 +381,71 @@
                                     <span class="menu-text">Add User</span>
                                 </a>
                             </li>
-                        @endhasrole
 
-                        <li class="menu-item">
-                            <a href="auth-register.php" class="menu-link">
-                                <span class="menu-text">Register</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-register-2.php" class="menu-link">
-                                <span class="menu-text">Register 2</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-signin-signup.php" class="menu-link">
-                                <span class="menu-text">Signin - Signup</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-signin-signup-2.php" class="menu-link">
-                                <span class="menu-text">Signin - Signup 2</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-recoverpw.php" class="menu-link">
-                                <span class="menu-text">Recover Password</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-recoverpw-2.php" class="menu-link">
-                                <span class="menu-text">Recover Password 2</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-lock-screen.php" class="menu-link">
-                                <span class="menu-text">Lock Screen</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-lock-screen-2.php" class="menu-link">
-                                <span class="menu-text">Lock Screen 2</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-logout.php" class="menu-link">
-                                <span class="menu-text">Logout</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-logout-2.php" class="menu-link">
-                                <span class="menu-text">Logout 2</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-confirm-mail.php" class="menu-link">
-                                <span class="menu-text">Confirm Mail</span>
-                            </a>
-                        </li>
-                        <li class="menu-item">
-                            <a href="auth-confirm-mail-2.php" class="menu-link">
-                                <span class="menu-text">Confirm Mail 2</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </li>
+                            <li class="menu-item">
+                                <a href="auth-register.php" class="menu-link">
+                                    <span class="menu-text">Register</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-register-2.php" class="menu-link">
+                                    <span class="menu-text">Register 2</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-signin-signup.php" class="menu-link">
+                                    <span class="menu-text">Signin - Signup</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-signin-signup-2.php" class="menu-link">
+                                    <span class="menu-text">Signin - Signup 2</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-recoverpw.php" class="menu-link">
+                                    <span class="menu-text">Recover Password</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-recoverpw-2.php" class="menu-link">
+                                    <span class="menu-text">Recover Password 2</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-lock-screen.php" class="menu-link">
+                                    <span class="menu-text">Lock Screen</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-lock-screen-2.php" class="menu-link">
+                                    <span class="menu-text">Lock Screen 2</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-logout.php" class="menu-link">
+                                    <span class="menu-text">Logout</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-logout-2.php" class="menu-link">
+                                    <span class="menu-text">Logout 2</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-confirm-mail.php" class="menu-link">
+                                    <span class="menu-text">Confirm Mail</span>
+                                </a>
+                            </li>
+                            <li class="menu-item">
+                                <a href="auth-confirm-mail-2.php" class="menu-link">
+                                    <span class="menu-text">Confirm Mail 2</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+            @endhasrole
 
             <li class="menu-item">
                 <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link">

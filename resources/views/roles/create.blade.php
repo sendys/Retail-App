@@ -27,8 +27,8 @@
                         <div class="mb-3">
                             <label for="guard_name" class="form-label">Guard Name<span class="text-danger">*</span></label>
                             <select class="form-control select2" id="guard_name" name="guard_name" required
-                                data-toggle="select2" data-width="100%">
-                                <option value="" disabled {{ old('guard_name') ? '' : 'selected' }}>Pilih Guard
+                                data-toggle="select2" data-width="100%" >
+                                {{-- <option value="" disabled {{ old('guard_name') ? '' : 'selected' }}>Pilih Guard --}}
                                 </option>
                                 <option value="web" {{ old('guard_name') == 'web' ? 'selected' : '' }}>web</option>
                                 <option value="api" {{ old('guard_name') == 'api' ? 'selected' : '' }}>api</option>

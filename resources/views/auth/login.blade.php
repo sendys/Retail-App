@@ -22,14 +22,14 @@
                                     <a href="#" class="logo logo-dark text-center">
                                         <span class="logo-lg">
                                             <img src="{{ asset('assets/images/logo-dark.png') }}" alt=""
-                                                height="60">
+                                                height="22">
                                         </span>
                                     </a>
 
                                     <a href="#" class="logo logo-light text-center">
                                         <span class="logo-lg">
 
-                                            <img src="{{ asset('assets/images/logo-light.png') }}" alt=""
+                                            <img src="{{ asset('assets/images/logo-dark.png') }}" alt=""
                                                 height="22">
                                         </span>
                                     </a>

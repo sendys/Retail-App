@@ -68,7 +68,7 @@
 
 
     <!-- Sweet alert init js-->
-    <script src="{{ asset('assets/js/pages/dashboard-1.init.js') }}"></script>
+    <script src="{{ asset('assets/js/pages/dashboard-3.init.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
     {{-- <script src="{{ asset('assets/js/pages/sweet-alerts.init.js') }}"></script> --}}
