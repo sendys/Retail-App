@@ -65,16 +65,11 @@
     <script src="{{ asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
 
-    <script src="{{ asset('assets/libs/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
-
 
     <!-- Sweet alert init js-->
     <script src="{{ asset('assets/js/pages/dashboard-1.init.js') }}"></script>
-    <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/pages/sweet-alerts.init.js') }}"></script> --}}
-    {{-- <script src="{{ asset('assets/js/pages/toastr.init.js') }}"></script> --}}
-
+   
 </body>
 
 </html>

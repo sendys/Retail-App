@@ -8,6 +8,7 @@ use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 
 class UserController extends Controller
 {
@@ -76,47 +77,52 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(User $user)
+    public function edit($id)
     {
-        $roles = Role::pluck('name', 'name')->all(); // Ambil semua nama role
-        $userRole = $user->roles->pluck('name', 'name')->all(); // Ambil role yang dimiliki user
-        return view('user.edit', compact('user', 'roles', 'userRole'));
+        $user = User::findOrFail($id);
+        $roles = Role::pluck('name', 'name'); // nama role sebagai value & label
+        $userRole = $user->getRoleNames()->toArray(); // ambil role user
+
+        $userPermissions = $user->getPermissionNames()->toArray();
+        $permissions = Permission::all()->groupBy('group');
+
+        return view('user.edit', compact('user', 'roles', 'userRole', 'permissions', 'userPermissions'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, $id)
     {
+        $user = User::findOrFail($id);
+
+        // Validasi input
         $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', \Illuminate\Validation\Rule::unique('users')->ignore($user->id)],
-            'password' => ['nullable', 'confirmed', 'min:8'],
-            'roles' => ['nullable', 'array'], // Pastikan roles adalah array
-            'roles.*' => ['string', 'exists:roles,name'] // Setiap item di roles harus string dan ada di tabel roles
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email,' . $id,
+            'password' => 'nullable|string|min:6|confirmed',
+            'roles' => 'required|array',
+            'permissions' => 'nullable|array',
         ]);
 
-        $input = $request->all();
+        // Update data dasar
+        $user->name = $request->name;
+        $user->email = $request->email;
 
-        if (!empty($input['password'])) {
-            $input['password'] = Hash::make($input['password']);
-        } else {
-            $input = Arr::except($input, ['password']); // Jangan update password jika kosong
+        // Update password jika diisi
+        if ($request->filled('password')) {
+            $user->password = Hash::make($request->password);
         }
 
-        $user->update($input);
+        $user->save();
 
-        // Sinkronisasi roles
-        // Jika tidak ada 'roles' yang dikirim (misal, semua checkbox tidak dicentang),
-        // $request->input('roles', []) akan memberikan array kosong.
-        // Ini akan menghapus semua role dari user.
-        
-        if ($request->user()->can('assign roles')) { // Hanya jika user punya permission
-             $user->syncRoles($request->input('roles', []));
-        }
+        // Sync roles
+        $user->syncRoles($request->roles);
 
-        return redirect()->route('user.index')
-                         ->with('success', 'User berhasil diperbarui.');
+        // Sync permissions (optional)
+        $user->syncPermissions($request->permissions ?? []);
+
+        return redirect()->route('user.index')->with('success', 'Data pengguna berhasil diperbarui.');
     }
 
     /**

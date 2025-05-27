@@ -376,17 +376,20 @@
                                 <a href="{{ route('roles.index') }}" class="menu-link">
                                     <span class="menu-text">Add Role</span>
                                 </a>
+                            </li>
+
+                            <li class="menu-item">
+                                <a href="{{ route('permission.index') }}" class="menu-link">
+                                    <span class="menu-text">Add Permisision</span>
+                                </a>
+                            </li>
+
                             <li class="menu-item">
                                 <a href="{{ route('user.index') }}" class="menu-link">
                                     <span class="menu-text">Add User</span>
                                 </a>
                             </li>
 
-                            <li class="menu-item">
-                                <a href="auth-register.php" class="menu-link">
-                                    <span class="menu-text">Register</span>
-                                </a>
-                            </li>
                             <li class="menu-item">
                                 <a href="auth-register-2.php" class="menu-link">
                                     <span class="menu-text">Register 2</span>
