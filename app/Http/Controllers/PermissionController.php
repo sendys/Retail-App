@@ -12,16 +12,14 @@ class PermissionController extends Controller
     {
         $query = Permission::query();
 
-        if ($search = $request->input('search')) {
-            $query->where('name', 'like', "%{$search}%")
-                ->orWhere('group', 'like', "%{$search}%");
+        if ($request->has('search')) {
+            $query->where('name', 'like', '%'.$request->input('search').'%');
         }
 
-        $permissions = $query->orderBy('group')->paginate(5);
+        $permissions = $query->orderBy('group')->orderBy('id')->paginate(10);
 
-        return view('permission.index', compact('permissions', 'search'));
+        return view('permission.index', compact('permissions'));
     }
-
 
     public function create()
     {
@@ -41,7 +39,7 @@ class PermissionController extends Controller
             'guard_name' => 'web'
         ]);
 
-        return redirect()->route('permission.create')->with('success', 'Permission berhasil ditambahkan.');
+        return redirect()->route('permission.index')->with('success', 'Permission berhasil ditambahkan.');
     }
 
     public function edit($id)
@@ -54,13 +52,11 @@ class PermissionController extends Controller
     {
         $request->validate([
             'name' => 'required|string|unique:permissions,name,' . $id,
-            'group' => 'nullable|string',
         ]);
 
         $permission = Permission::findOrFail($id);
         $permission->update([
             'name' => $request->name,
-            'group' => $request->group,
         ]);
 
         return redirect()->route('permission.index')->with('success', 'Permission berhasil diubah.');

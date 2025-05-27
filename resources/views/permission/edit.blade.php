@@ -1,25 +1,49 @@
 @extends('layouts.app')
-
 @section('content')
-<div class="container">
-    <h4>Edit Permission</h4>
+    <?php
+    $sub_title = 'Tables';
+    $title = 'Permissions';
+    ?>
+    @include('layouts.partials.page-title')
 
-    <form action="{{ route('permission.update', $permission->id) }}" method="POST">
-        @csrf
-        @method('PUT')
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="header-title">Permission Edit</h4>
+                    <p class="text-muted font-14">
+                        Form ini untuk perubahan Permission.
+                    </p>
 
-        <div class="mb-3">
-            <label for="name" class="form-label">Nama Permission</label>
-            <input type="text" class="form-control" name="name" id="name" value="{{ old('name', $permission->name) }}" required>
+                    <form action="{{ route('permission.update', $permission->id) }}" method="POST" class="parsley-examples">
+                        @csrf
+                        @method('PUT')
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Group Permission<span
+                                    class="text-danger">*</span></label>
+                            <input type="text" id="group" name="group"
+                                value="{{ old('group', $permission->group) }}" parsley-trigger="change" required
+                                placeholder="Group Permission" class="form-control" disabled />
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="name" class="form-label">Nama Permission<span
+                                    class="text-danger">*</span></label>
+                            <input type="text" id="name" name="name" value="{{ old('name', $permission->name) }}"
+                                parsley-trigger="change" required placeholder="Nama Permission" class="form-control" />
+                        </div>
+
+                        <div class="text-end">
+                            <button class="btn btn-primary waves-effect waves-light" type="submit">Simpan</button>
+                            <a href="{{ url()->previous() }}" class="btn btn-secondary waves-effect">Kembali</a>
+
+                        </div>
+                    </form>
+
+                </div>
+            </div>
         </div>
 
-        <div class="mb-3">
-            <label for="group" class="form-label">Group Permission</label>
-            <input type="text" class="form-control" name="group" id="group" value="{{ old('group', $permission->group) }}">
-        </div>
-
-        <button type="submit" class="btn btn-primary">Update</button>
-        <a href="{{ route('permission.index') }}" class="btn btn-secondary">Batal</a>
-    </form>
-</div>
+    </div>
 @endsection
