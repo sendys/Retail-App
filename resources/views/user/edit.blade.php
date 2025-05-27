@@ -22,31 +22,53 @@
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama Lengkap<span class="text-danger">*</span></label>
-                            <input type="text" id="name" name="name" value="{{ $user->name }}"
+                            <input type="text" id="name" name="name" value="{{ old('name', $user->name) }}"
                                 parsley-trigger="change" required placeholder="Nama pengguna" class="form-control" />
                         </div>
                         <div class="mb-3">
                             <label for="email" class="form-label">Email<span class="text-danger">*</span></label>
-                            <input type="email" id="email" name="email" value="{{ $user->email }}"
+                            <input type="email" id="email" name="email" value="{{ old('email', $user->email) }}"
                                 parsley-trigger="change" required placeholder="Email" class="form-control" />
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
-                            <input type="password" id="password" name="password" parsley-trigger="change" required
-                                placeholder="Password" class="form-control" />
+                            <input type="password" id="password" name="password" parsley-trigger="change"
+                                class="form-control" />
+                        </div>
+                        <div class="mb-3">
+                            <label for="password_confirmation" class="form-label">Konfirmasi Password<span
+                                    class="text-danger">*</span></label>
+                            <input type="password" id="password_confirmation" name="password_confirmation"
+                                parsley-trigger="change" class="form-control" />
                         </div>
 
                         <div class="mb-3">
                             <label for="role" class="form-label">Role<span class="text-danger">*</span></label>
                             <select name="roles[]" class="form-control select2-multiple" data-toggle="select2"
-                                data-width="100%" multiple="multiple" data-placeholder="Choose ...">
-                                @foreach ($roles as $roleValue => $roleName)
+                                data-width="100%" multiple="multiple" data-placeholder="Pilih role...">
+                                @forelse ($roles as $roleValue => $roleName)
                                     <option value="{{ $roleValue }}"
                                         {{ in_array($roleValue, $userRole) ? 'selected' : '' }}>
                                         {{ $roleName }}
                                     </option>
                                 @endforeach
+
                             </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Roles:</label><br>
+                            @forelse ($roles as $roleValue => $roleName)
+                                <div class="form-check form-check-inline">
+                                    <input class="form-check-input" type="checkbox" name="roles[]"
+                                        id="role_{{ $roleValue }}" value="{{ $roleValue }}"
+                                        {{ in_array($roleValue, $userRole) ? 'checked' : '' }}>
+                                    <label class="form-check-label"
+                                        for="role_{{ $roleValue }}">{{ $roleName }}</label>
+                                </div>
+                            @empty
+                                <p>Tidak ada role tersedia.</p>
+                            @endforelse
                         </div>
 
                         <div class="text-end">

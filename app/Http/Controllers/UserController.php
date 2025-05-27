@@ -78,9 +78,8 @@ class UserController extends Controller
      */
     public function edit(User $user)
     {
-        $roles = Role::pluck('name', 'name')->all();
-        $userRole = $user->roles->pluck('name', 'name')->all();
-
+        $roles = Role::pluck('name', 'name')->all(); // Ambil semua nama role
+        $userRole = $user->roles->pluck('name', 'name')->all(); // Ambil role yang dimiliki user
         return view('user.edit', compact('user', 'roles', 'userRole'));
     }
 
@@ -90,36 +89,35 @@ class UserController extends Controller
     public function update(Request $request, User $user)
     {
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255' . $user->id,
-            'password' => 'nullable|string|min:8',
-            'roles' => 'required|array',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', \Illuminate\Validation\Rule::unique('users')->ignore($user->id)],
+            'password' => ['nullable', 'confirmed', 'min:8'],
+            'roles' => ['nullable', 'array'], // Pastikan roles adalah array
+            'roles.*' => ['string', 'exists:roles,name'] // Setiap item di roles harus string dan ada di tabel roles
         ]);
 
         $input = $request->all();
 
-        // Hash password jika ada perubahan
         if (!empty($input['password'])) {
             $input['password'] = Hash::make($input['password']);
         } else {
-            // Jika password tidak diisi, hapus dari input
-            unset($input['password']);
+            $input = Arr::except($input, ['password']); // Jangan update password jika kosong
         }
 
-        // Update user dengan input yang telah diproses
         $user->update($input);
 
-        // Hapus role lama
-        DB::table('model_has_roles')->where('model_id', $user->id)->delete();
-
-        // Assign role baru
-        /* $user->assignRole($request->input('roles')); */
-        $user->syncRoles($request->input('roles'));
+        // Sinkronisasi roles
+        // Jika tidak ada 'roles' yang dikirim (misal, semua checkbox tidak dicentang),
+        // $request->input('roles', []) akan memberikan array kosong.
+        // Ini akan menghapus semua role dari user.
+        
+        if ($request->user()->can('assign roles')) { // Hanya jika user punya permission
+             $user->syncRoles($request->input('roles', []));
+        }
 
         return redirect()->route('user.index')
-            ->with('success', 'User  updated successfully.');
+                         ->with('success', 'User berhasil diperbarui.');
     }
-
 
     /**
      * Remove the specified resource from storage.
