@@ -68,8 +68,8 @@
                                                 <div class="row mt-2">
                                                     @foreach ($groupPermissions as $permission)
                                                         <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input"
+                                                            <div class="form-check mb-2 form-check-primary">
+                                                                <input class="form-check-input rounded-circle" type="checkbox"
                                                                     name="permissions[]" id="perm_{{ $permission->id }}"
                                                                     value="{{ $permission->name }}"
                                                                     {{ in_array($permission->name, $userPermissions) ? 'checked' : '' }}>
@@ -95,11 +95,11 @@
                                                 <div class="row mt-2">
                                                     @foreach ($groupPermissions as $permission)
                                                         <div class="col-md-6">
-                                                            <div class="form-check">
-                                                                <input type="checkbox" class="form-check-input"
+                                                            <div class="form-check mb-2 form-check-primary">
+                                                                <input class="form-check-input rounded-circle" type="checkbox" 
                                                                     name="permissions[]" id="perm_{{ $permission->id }}"
                                                                     value="{{ $permission->name }}"
-                                                                    {{ in_array($permission->name, $userPermissions) ? 'checked' : '' }}>
+                                                                    {{ in_array($permission->name, $userPermissions) ? 'checked' : '' }} >
                                                                 <label class="form-check-label"
                                                                     for="perm_{{ $permission->id }}">
                                                                     {{ ucwords(str_replace('_', ' ', $permission->name)) }}
