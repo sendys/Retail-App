@@ -26,11 +26,13 @@ Route::middleware(['auth', 'role:' . implode('|', \App\Models\Role::pluck('name'
     //Group Permission
     Route::get('/permission', [App\Http\Controllers\PermissionController::class, 'index'])->name('permission.index');
     Route::get('/permission/create', [App\Http\Controllers\PermissionController::class, 'create'])->name('permission.create');
-    Route::post('/permission', [App\Http\Controllers\PermissionController::class,'store'])->name('permission.store');
+    Route::post('/permission', [App\Http\Controllers\PermissionController::class, 'store'])->name('permission.store');
     Route::get('/permission/{permission}/edit', [App\Http\Controllers\PermissionController::class, 'edit'])->name('permission.edit');
     Route::put('/permission/{id}', [App\Http\Controllers\PermissionController::class, 'update'])->name('permission.update');
     Route::delete('/permission/{permission}', [App\Http\Controllers\PermissionController::class, 'destroy'])->name('permission.destroy');
-
+});
+Route::middleware([
+    'auth', 'role:' . implode('|', config('roles.access_user_routes'))])->group(function () {
     // Group User
     Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('user.index');
     Route::get('/user/create', [App\Http\Controllers\UserController::class, 'create'])->name('user.create');
@@ -38,5 +40,4 @@ Route::middleware(['auth', 'role:' . implode('|', \App\Models\Role::pluck('name'
     Route::get('/user/{user}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('user.edit');
     Route::put('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('user.update');
     Route::delete('/user/{user}', [App\Http\Controllers\UserController::class, 'destroy'])->name('user.destroy');
-
 });

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Role;
-/* use Spatie\Permission\Models\Role; */
+/* use App\Models\Role; */
+
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\Models\Permission;
 use Illuminate\Http\Request;
 
 class RoleController extends Controller
@@ -16,7 +18,7 @@ class RoleController extends Controller
         $query = Role::query();
 
         if ($request->has('search')) {
-            $query->where('name', 'like', '%'.$request->input('search').'%');
+            $query->where('name', 'like', '%' . $request->input('search') . '%');
         }
 
         $roles = $query->paginate(request('per_page', 10)); // Paginate with 10 items per page
@@ -29,7 +31,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        return view('roles.create');
+        /* $permissions = Permission::pluck('name', 'name')->all(); */
+        $permissions = Permission::all()->groupBy('group');
+        return view('roles.create', compact('permissions'));
     }
 
     /**
@@ -40,19 +44,24 @@ class RoleController extends Controller
         $request->validate([
             'name' => 'required|string|unique:roles,name',
             'guard_name' => 'required|string',
+            'permissions' => 'nullable|array',
         ]);
 
-        Role::create([
+        $role = Role::create([
             'name' => $request->name,
             'guard_name' => $request->guard_name,
         ]);
+
+        // Assign permission jika ada
+        if ($request->filled('permissions')) {
+            $role->syncPermissions($request->permissions);
+        }
 
         return response()->json([
             'success' => true,
             'message' => 'Role created successfully.',
             'redirect_url' => route('roles.index'),
         ]);
-
     }
 
     /**
@@ -68,7 +77,8 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        return view('roles.edit', compact('role'));
+        $permissions = Permission::all()->groupBy('group');
+        return view('roles.edit', compact('role', 'permissions'));
     }
 
     /**
@@ -77,8 +87,9 @@ class RoleController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'name' => 'required|string|unique:roles,name,'.$id,
+            'name' => 'required|string|unique:roles,name,' . $id,
             'guard_name' => 'required|string',
+            'permissions' => 'nullable|array',
         ]);
 
         $role = Role::findOrFail($id);
@@ -86,6 +97,9 @@ class RoleController extends Controller
             'name' => $request->name,
             'guard_name' => $request->guard_name,
         ]);
+
+        // Sync permissions (optional)
+        $role->syncPermissions($request->permissions ?? []);
 
         return response()->json([
             'success' => true,

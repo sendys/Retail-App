@@ -37,8 +37,10 @@ class UserController extends Controller
      */
     public function create()
     {
+        if (!auth()->user()->can('create users')) {
+            abort(403, 'Anda tidak memiliki izin untuk menambah user.');
+        }
         $roles = Role::pluck('name', 'name')->all();
-
         return view('user.create', compact('roles'));
     }
 
@@ -79,6 +81,11 @@ class UserController extends Controller
      */
     public function edit($id)
     {
+         // Cek manual jika diperlukan:
+         if (!auth()->user()->can('edit users')) {
+            abort(403, 'Anda tidak memiliki izin untuk edit user.');
+        }
+        
         $user = User::findOrFail($id);
         $roles = Role::pluck('name', 'name'); // nama role sebagai value & label
         $userRole = $user->getRoleNames()->toArray(); // ambil role user
@@ -130,6 +137,16 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Cek manual jika diperlukan:
+        if (!auth()->user()->can('delete users')) {
+            abort(403, 'Anda tidak memiliki izin untuk menghapus user.');
+        }
+
+        // Cegah user menghapus dirinya sendiri
+        if (auth()->id() === $user->id) {
+            return redirect()->route('user.index')->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.');
+        }
+
         $user->delete();
 
         return redirect()->route('user.index')

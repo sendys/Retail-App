@@ -133,6 +133,8 @@ return [
 
     'teams' => false,
 
+    'guard_name' => 'web', // PENTING: harus sama dengan guard yang digunakan di auth.php
+
     /*
      * The class to use to resolve the permissions team id
      */

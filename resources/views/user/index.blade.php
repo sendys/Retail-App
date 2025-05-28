@@ -7,6 +7,10 @@
     ?>
     @include('layouts.partials.page-title')
 
+    {{--  @dd(Auth::user()->getAllPermissions())  --}}
+
+    {{-- @dd(Auth::user()->can('create users')) --}}
+
     <div class="row">
 
         <div class="col-lg-12">
@@ -55,12 +59,6 @@
                     </div>
                     <br>
 
-                    @if (session('success'))
-                        <script>
-                            toastr.success("{{ session('success') }}");
-                        </script>
-                    @endif
-
                     @if (@isset($users) && $users->count() > 0)
                         <div class="table-responsive">
                             <table class="table table-centered table-nowrap table-hover mb-0" id="rolesTable">
@@ -89,7 +87,6 @@
                                             <td>
                                                 <a href="{{ route('user.edit', $user->id) }}" class="action-icon"><i
                                                         class="mdi mdi-square-edit-outline"></i></a>
-
                                                 <form action="{{ route('user.destroy', $user->id) }}" method="POST"
                                                     class="delete-role-form" style="display: inline-block;">
                                                     @csrf
@@ -202,7 +199,7 @@
     </script>
 
     {{-- Fungsi Delete --}}
-    <script>
+    {{-- <script>
         document.addEventListener('DOMContentLoaded', function() {
             const deleteButtons = document.querySelectorAll('.btn-delete-role');
             deleteButtons.forEach(button => {
@@ -226,5 +223,67 @@
                 });
             });
         });
+    </script> --}}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.btn-delete-role');
+
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const form = this.closest('form');
+                    const roleName = this.getAttribute('data-role-name');
+
+                    // Optional: Tampilkan notifikasi sementara sebelum submit
+                    $.toast({
+                        heading: 'Menghapus',
+                        text: `Sedang menghapus role: "<b>${roleName}</b>"`,
+                        showHideTransition: 'slide up',
+                        icon: 'info',
+                        loader: true,
+                        loaderBg: '#3498db',
+                        position: 'top-right',
+                        hideAfter: 3000
+                    });
+
+                    // Submit form setelah delay
+                    setTimeout(() => {
+                        form.submit();
+                    }, 3000);
+                });
+            });
+        });
     </script>
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $.toast({
+                    heading: 'Sukses',
+                    text: `{!! session('success') !!}`,
+                    showHideTransition: 'slide up',
+                    icon: 'danger',
+                    loader: true,
+                    loaderBg: '#2ecc71',
+                    position: 'top-right',
+                    hideAfter: 3000
+                });
+            });
+        </script>
+    @endif
+    @if (session('error'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $.toast({
+                    heading: 'Gagal',
+                    text: `{!! session('error') !!}`,
+                    showHideTransition: 'slide up',
+                    icon: 'danger',
+                    loader: true,
+                    loaderBg: '#e74c3c',
+                    position: 'top-right',
+                    hideAfter: 3000
+                });
+            });
+        </script>
+    @endif
 @endsection

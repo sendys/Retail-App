@@ -31,13 +31,14 @@
                         </div>
                         <div class="mb-3">
                             <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
-                            <input type="password" id="password" name="password" 
-                                parsley-trigger="change" required placeholder="Password" class="form-control" />
+                            <input type="password" id="password" name="password" parsley-trigger="change" required
+                                placeholder="Password" class="form-control" />
                         </div>
-                       
+
                         <div class="mb-3">
                             <label for="role" class="form-label">Role<span class="text-danger">*</span></label>
-                            <select name="roles[]" class="form-control select2-multiple" data-toggle="select2" data-width="100%" multiple="multiple" data-placeholder="Choose ...">
+                            <select name="roles[]" class="form-control select2-multiple" data-toggle="select2"
+                                data-width="100%" multiple="multiple" data-placeholder="Choose ...">
                                 @foreach ($roles as $role)
                                     <option value="{{ $role }}">{{ $role }}</option>
                                 @endforeach
@@ -55,5 +56,4 @@
         </div>
 
     </div>
-
 @endsection

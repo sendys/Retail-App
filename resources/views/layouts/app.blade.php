@@ -64,12 +64,39 @@
     <script src="{{ asset('assets/libs/selectize/js/standalone/selectize.min.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap-touchspin/jquery.bootstrap-touchspin.min.js') }}"></script>
     <script src="{{ asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
+    <!-- Tost-->
+    <script src="{{ asset('assets/libs/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
+    <!-- SweetAlert2 JS -->
+    {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
+    {{-- <script>
+        @if (session('success'))
+            Swal.fire({
+                toast: true,
+                icon: 'success',
+                title: '{{ session('success') }}',
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        @endif
 
+        @if (session('error'))
+            Swal.fire({
+                toast: true,
+                icon: 'error',
+                title: '{{ session('error') }}',
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000,
+                timerProgressBar: true,
+            });
+        @endif
+    </script> --}}
 
-    <!-- Sweet alert init js-->
     <script src="{{ asset('assets/js/pages/dashboard-1.init.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
-   
+    <script src="{{ asset('assets/js/pages/toastr.init.js') }}"></script>
 </body>
 
 </html>

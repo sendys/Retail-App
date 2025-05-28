@@ -363,7 +363,7 @@
 
             <li class="menu-title">Custom</li>
 
-            @hasrole(['admin', 'manager'])
+            @hasrole(config('roles.access_user_routes'))
                 <li class="menu-item">
                     <a href="#menuAuth" data-bs-toggle="collapse" class="menu-link">
                         <span class="menu-icon"><i data-feather="file-text"></i></span>
@@ -373,14 +373,14 @@
                     <div class="collapse collapse-md" id="menuAuth">
                         <ul class="sub-menu">
                             <li class="menu-item">
-                                <a href="{{ route('roles.index') }}" class="menu-link">
-                                    <span class="menu-text">Add Role</span>
+                                <a href="{{ route('permission.index') }}" class="menu-link">
+                                    <span class="menu-text">Add Permisision</span>
                                 </a>
                             </li>
 
                             <li class="menu-item">
-                                <a href="{{ route('permission.index') }}" class="menu-link">
-                                    <span class="menu-text">Add Permisision</span>
+                                <a href="{{ route('roles.index') }}" class="menu-link">
+                                    <span class="menu-text">Add Role</span>
                                 </a>
                             </li>
 

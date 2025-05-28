@@ -37,6 +37,89 @@
                             </select>
                         </div>
 
+                        <div class="mb-3">
+                            <label class="form-label fw-bold">Permissions <span class="text-danger">*</span></label>
+
+                            <div class="row">
+                                <div class="col-md-6">
+                                    @foreach ($permissions as $group => $groupPermissions)
+                                        @if ($loop->index % 2 == 0)
+                                            <div class="border p-3 rounded mb-3">
+                                                {{-- <strong>{{ $group ?? 'Tanpa Grup' }}</strong> --}}
+                                                <div class="form-check form-check-success mb-2">
+                                                    <input class="form-check-input group-check" type="checkbox"
+                                                        id="check_{{ Str::slug($group) }}"
+                                                        data-group="{{ Str::slug($group) }}">
+                                                    <label class="form-check-label fw-bold"
+                                                        for="check_{{ Str::slug($group) }}">
+                                                        All {{ $group }}
+                                                    </label>
+                                                </div>
+
+                                                <div class="row mt-2">
+                                                    @foreach ($groupPermissions as $permission)
+                                                        <div class="col-md-6">
+                                                            <div class="form-check mb-2 form-check-primary">
+                                                                <input
+                                                                    class="form-check-input rounded-circle perm-{{ Str::slug($group) }}"
+                                                                    type="checkbox" name="permissions[]"
+                                                                    id="perm_{{ $permission->id }}"
+                                                                    value="{{ $permission->name }}"
+                                                                    {{ $role->permissions->contains('name', $permission->name) ? 'checked' : '' }}>
+                                                                <label class="form-check-label"
+                                                                    for="perm_{{ $permission->id }}">
+                                                                    {{ ucwords(str_replace('_', ' ', $permission->name)) }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+
+                                <div class="col-md-6">
+                                    @foreach ($permissions as $group => $groupPermissions)
+                                        @if ($loop->index % 2 == 1)
+                                            <div class="border p-3 rounded mb-3">
+                                                {{--  <strong>{{ $group ?? 'Tanpa Grup' }}</strong> --}}
+                                                <div class="form-check form-check-success mb-2">
+                                                    <input class="form-check-input group-check" type="checkbox"
+                                                        id="check_{{ Str::slug($group) }}"
+                                                        data-group="{{ Str::slug($group) }}">
+                                                    <label class="form-check-label fw-bold"
+                                                        for="check_{{ Str::slug($group) }}">
+                                                        All {{ $group }}
+                                                    </label>
+                                                </div>
+
+                                                <div class="row mt-2">
+                                                    @foreach ($groupPermissions as $permission)
+                                                        <div class="col-md-6">
+                                                            <div class="form-check mb-2 form-check-primary">
+                                                                <input
+                                                                    class="form-check-input rounded-circle perm-{{ Str::slug($group) }}"
+                                                                    type="checkbox" name="permissions[]"
+                                                                    id="perm_{{ $permission->id }}"
+                                                                    value="{{ $permission->name }}"
+                                                                    {{ $role->permissions->contains('name', $permission->name) ? 'checked' : '' }}>
+                                                                <label class="form-check-label"
+                                                                    for="perm_{{ $permission->id }}">
+                                                                    {{ ucwords(str_replace('_', ' ', $permission->name)) }}
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                </div>
+                            </div>
+
+                        </div>
+
                         <div class="text-end">
                             <button class="btn btn-primary waves-effect waves-light" type="submit">Simpan</button>
                             <a href="{{ route('roles.index') }}" class="btn btn-secondary waves-effect">Batal</a>
@@ -99,6 +182,33 @@
                 if (input) {
                     input.focus();
                 }
+            });
+        });
+    </script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const groupChecks = document.querySelectorAll('.group-check');
+
+            groupChecks.forEach(groupCheck => {
+                const group = groupCheck.dataset.group;
+                const checkboxes = document.querySelectorAll('.perm-' + group);
+
+                // Saat "Check All" grup diklik
+                groupCheck.addEventListener('change', function() {
+                    checkboxes.forEach(cb => cb.checked = this.checked);
+                });
+
+                // Saat salah satu checkbox di grup diubah
+                checkboxes.forEach(cb => {
+                    cb.addEventListener('change', function() {
+                        const allChecked = [...checkboxes].every(c => c.checked);
+                        groupCheck.checked = allChecked;
+                    });
+                });
+
+                // Set awal status checkbox grup
+                const allChecked = [...checkboxes].every(c => c.checked);
+                groupCheck.checked = allChecked;
             });
         });
     </script>
