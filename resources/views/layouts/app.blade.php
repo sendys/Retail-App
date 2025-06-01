@@ -6,6 +6,8 @@
 
     @include('layouts.partials.title-meta')
     @include('layouts.partials.head-css')
+
+    @livewireStyles
     {{-- @vite(['resources/css/app.css', 'resources/js/app.js']) --}}
 
 </head>
@@ -14,6 +16,8 @@
 
     <!-- Begin page -->
     <div id="wrapper">
+
+        @include('layouts.partials.preloader')
         @include('layouts.partials.menu')
 
         <!-- ============================================================== -->
@@ -29,8 +33,11 @@
                 <!-- Start Content-->
                 <div class="container-fluid">
 
+                    {{-- Untuk Blade biasa --}}
                     @yield('content')
 
+                    {{-- Untuk Livewire --}}
+                    {{ $slot ?? '' }}
 
                 </div> <!-- container -->
 
@@ -50,6 +57,8 @@
     @include('layouts.partials.right-sidebar')
     @include('layouts.partials.footer-scripts')
 
+    {{-- @livewireScripts --}}
+
     <!-- Plugins js-->
     <script src="{{ asset('assets/libs/flatpickr/flatpickr.min.js') }}"></script>
     <script src="{{ asset('assets/libs/apexcharts/apexcharts.min.js') }}"></script>
@@ -66,37 +75,17 @@
     <script src="{{ asset('assets/libs/bootstrap-maxlength/bootstrap-maxlength.min.js') }}"></script>
     <!-- Tost-->
     <script src="{{ asset('assets/libs/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/dragula/dragula.min.js') }}"></script>
     <!-- SweetAlert2 JS -->
     {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
-    {{-- <script>
-        @if (session('success'))
-            Swal.fire({
-                toast: true,
-                icon: 'success',
-                title: '{{ session('success') }}',
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            });
-        @endif
 
-        @if (session('error'))
-            Swal.fire({
-                toast: true,
-                icon: 'error',
-                title: '{{ session('error') }}',
-                position: 'top-end',
-                showConfirmButton: false,
-                timer: 3000,
-                timerProgressBar: true,
-            });
-        @endif
-    </script> --}}
+    @livewireScripts
 
+    <!-- Init js-->
     <script src="{{ asset('assets/js/pages/dashboard-1.init.js') }}"></script>
     <script src="{{ asset('assets/js/pages/form-advanced.init.js') }}"></script>
     <script src="{{ asset('assets/js/pages/toastr.init.js') }}"></script>
+
 </body>
 
 </html>

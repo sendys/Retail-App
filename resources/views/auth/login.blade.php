@@ -117,8 +117,10 @@
 
                     <div class="row mt-3">
                         <div class="col-12 text-center">
-                            <p> <a href="#" class="text-white-50 ms-1">Forgot your password?</a></p>
-                            <p class="text-white-50">Don't have an account? <a href="auth-register.php"
+                            <p> <a href="#" class="text-white-50 ms-1">Forgot your
+                                    password?</a>
+                            </p>
+                            <p class="text-white-50">Don't have an account? <a href="{{ route('user.register') }}"
                                     class="text-white ms-1"><b>Sign Up</b></a></p>
                         </div> <!-- end col -->
                     </div>

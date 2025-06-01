@@ -33,6 +33,10 @@
                             <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
                             <input type="password" id="password" name="password" parsley-trigger="change" required
                                 placeholder="Password" class="form-control" />
+                            <small class="form-text text-muted">
+                                Kata sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar,
+                                satu angka dan satu karakter khusus (@$!%*?&)
+                            </small>
                         </div>
 
                         <div class="mb-3">
@@ -40,7 +44,13 @@
                             <select name="roles[]" class="form-control select2-multiple" data-toggle="select2"
                                 data-width="100%" multiple="multiple" data-placeholder="Choose ...">
                                 @foreach ($roles as $role)
-                                    <option value="{{ $role }}">{{ $role }}</option>
+                                    @if (!auth()->user()->hasRole('admin'))
+                                        @if ($role !== 'admin')
+                                            <option value="{{ $role }}">{{ $role }}</option>
+                                        @endif
+                                    @else
+                                        <option value="{{ $role }}">{{ $role }}</option>
+                                    @endif
                                 @endforeach
                             </select>
                         </div>

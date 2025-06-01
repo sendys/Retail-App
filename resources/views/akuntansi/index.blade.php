@@ -3,7 +3,7 @@
 @section('content')
     <?php
     $sub_title = 'Tables';
-    $title = 'Manage Users';
+    $title = 'Manage Data Akun';
     ?>
     @include('layouts.partials.page-title')
 
@@ -17,7 +17,7 @@
             <div class="card">
                 <div class="card-body">
 
-                    <h4 class="header-title">Manage Users</h4>
+                    <h4 class="header-title">Manage Data akun</h4>
                     <p class="sub-header">
                         Easily extend form controls by adding text, buttons, or button groups on either side
                         of textual inputs, custom selects, and custom file inputs
@@ -25,13 +25,8 @@
 
                     <div class="row justify-content-between">
                         <div class="col-auto">
-                            <form method="GET" action="{{ route('user.index') }}"
+                            <form method="GET" action="{{ route('akun.index') }}"
                                 class="d-flex flex-wrap align-items-center">
-                                <label for="inputPassword2" class="visually-hidden">Search</label>
-                                <div class="me-3">
-                                    <input type="search" name="search" class="form-control my-1 my-lg-0" id="search"
-                                        placeholder="Search..." value="{{ request('search') }}">
-                                </div>
                                 <label for="status-select" class="me-2">Show</label>
                                 <div class="me-sm-3">
                                     <select class="form-select my-1 my-lg-0" name="per_page" onchange="this.form.submit()">
@@ -42,83 +37,91 @@
                                         </option>
                                     </select>
                                 </div>
-                                <label for="status-select" class="me-2">entries</label>
+
+                                <label for="inputPassword2" class="visually-hidden">Search</label>
+                                <div class="me-3">
+                                    <input type="search" name="search" class="form-control my-1 my-lg-0" id="search"
+                                        placeholder="Search..." value="{{ request('search') }}">
+                                </div>
+
                             </form>
                         </div>
                         <div class="col-auto">
                             <div class="text-lg-end my-1 my-lg-0">
                                 <button type="button" class="btn btn-success waves-effect waves-light mb-2 me-1"><i
                                         class="mdi mdi-cog"></i></button>
-                                {{-- <button type="button" class="btn btn-danger waves-effect waves-light mb-2 me-1"
-                                data-bs-toggle="modal" data-bs-target="#custom-modal"><i
-                                    class="mdi mdi-plus-circle"></i> Add Customers</button> --}}
-                                <a href="{{ route('user.create') }}"
-                                    class="btn btn-danger waves-effect waves-light mb-2">Add User</a>
+                                <a href="{{ route('akun.create') }}"
+                                    class="btn btn-danger waves-effect waves-light mb-2">Add Data Akun</a>
                             </div>
                         </div><!-- end col-->
                     </div>
                     <br>
 
-                    @if (@isset($users) && $users->count() > 0)
+                    @if (isset($data) && $data->count() > 0)
                         <div class="table-responsive">
                             <table class="table table-centered table-nowrap table-hover mb-0" id="rolesTable">
                                 <thead>
                                     <tr>
-                                        <th>No</th>
-                                        <th>Name</th>
-                                        <th>Email</th>
-                                        <th>Nomor Telepon</th>
-                                        <th>Perusahaan</th>
-                                        <th>Roles</th>
-                                        <th width="100">Action</th>
+                                        <th style="width: 100px;"></th>
+                                        <th>Kode Akun</th>
+                                        <th>Nama Akun</th>
+                                        <th>Tipe</th>
+                                        <th style="width: 100px;">Saldo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    @forelse ($users as $key => $user)
-                                        <tr>
-                                            <td style="width: 100px">{{ $users->firstItem() + $key }}</td>
-                                            <td>{{ $user->name }}</td>
-                                            <td>{{ $user->email }}</td>
-                                            <td>{{ $user->phone }}</td>
-                                            <td>{{ $user->company_name }}</td>
+                                    @forelse ($data as $coa)
+                                        @php
+                                            $level = substr_count($coa->account_code, '-');
+                                            $isRoot = $level === 0;
+                                        @endphp
+                                        <tr @class([
+                                            'root-row' => $isRoot,
+                                        ])>
                                             <td>
-                                                @if (!empty($user->getRoleNames()))
-                                                    @foreach ($user->getRoleNames() as $v)
-                                                        <span class="badge bg-success">{{ $v }}</span>
-                                                    @endforeach
-                                                @endif
-                                            </td>
-                                            <td>
-                                                <a href="{{ route('user.edit', $user->id) }}" class="action-icon"><i
+                                                <a href="{{ route('akun.edit', $coa->id) }}" class="action-icon"><i
                                                         class="mdi mdi-square-edit-outline"></i></a>
-                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                                <form action="{{ route('akun.destroy', $coa->id) }}" method="POST"
                                                     class="delete-role-form" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
                                                     <button type="button" class="action-icon btn-delete-role"
-                                                        data-role-name="{{ $user->name }}" title="Hapus Role"
+                                                        data-role-name="{{ $coa->account_name }}" title="Hapus Role"
                                                         style="background: none; border: none; padding: 0; cursor: pointer; color: inherit;">
-
                                                         <i class="mdi mdi-delete"></i>
                                                     </button>
                                                 </form>
-
                                             </td>
+                                            <td>{{ $coa->account_code }}</td>
+                                            <td style="padding-left: {{ $level * 20 }}px;">{{ $coa->account_name }}</td>
+                                            <td>{{ ucfirst($coa->account_type) }}</td>
+                                            <td class="text-end">
+                                                {{ number_format($coa->account_balance ?? 0, 2, ',', '.') }}</td>
                                         </tr>
                                     @empty
                                         <tr>
                                             <td colspan="6" class="text-center">No roles found.</td>
                                         </tr>
                                     @endforelse
+
+                                    <style>
+                                        .root-row {
+                                            background-color: #e6f0ff;
+                                            /* biru muda */
+                                            font-weight: 600;
+                                            font-weight: bold;
+                                        }
+                                    </style>
+
                                 </tbody>
                             </table>
                         </div>
                         <div class="mt-3">
-                            {!! $users->appends(['search' => request('search'), 'per_page' => request('per_page')])->links('pagination::bootstrap-5') !!}
+                            {{--  {!! $data->appends(['search' => request('search'), 'per_page' => request('per_page')])->links('pagination::bootstrap-5') !!} --}}
                         </div>
                     @else
                         <div class="alert alert-info">
-                            No record found.
+                            <div class="text-center">No record found.</div>
                         </div>
                     @endif
 

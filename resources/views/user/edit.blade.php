@@ -31,6 +31,29 @@
                                 parsley-trigger="change" required placeholder="Email" class="form-control" />
                         </div>
                         <div class="mb-3">
+                            <label for="phone" class="form-label">Phone Number</label>
+                            <div class="input-group">
+                                <span class="input-group-text">+62</span>
+                                <input type="number" class="form-control @error('phone') is-invalid @enderror"
+                                    name="phone" id="phone" min="0"
+                                    oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                    value="{{ old('phone', $user->phone) }}" placeholder="Enter your phone number" required>
+                                @error('phone')
+                                    <div class="invalid-feedback">{{ $message }}</div>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="fullname" class="form-label">Nama Perusahaan / Usaha</label>
+                            <input class="form-control @error('company_name') is-invalid @enderror" type="text"
+                                id="company_name" name="company_name" value="{{ old('company_name', $user->company_name) }}"
+                                placeholder="Enter your company name" required>
+                            @error('company_name')
+                                <div class="invalid-feedback">{{ $message }}</div>
+                            @enderror
+                        </div>
+                        <div class="mb-3">
                             <label for="password" class="form-label">Password<span class="text-danger">*</span></label>
                             <input type="password" id="password" name="password" parsley-trigger="change"
                                 placeholder="Kosongkan, jika tidak ingin mengganti password" class="form-control" />
@@ -40,6 +63,10 @@
                                     class="text-danger">*</span></label>
                             <input type="password" id="password_confirmation" name="password_confirmation"
                                 parsley-trigger="change" placeholder="Ulangin password" class="form-control" />
+                            <small class="form-text text-muted">
+                                Kata sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar,
+                                satu angka dan satu karakter khusus (@$!%*?&)
+                            </small>
                         </div>
 
                         <div class="mb-3">
@@ -47,97 +74,30 @@
                             <select name="roles[]" class="form-control select2-multiple" data-toggle="select2"
                                 data-width="100%" multiple="multiple" data-placeholder="Pilih role...">
                                 @foreach ($roles as $roleValue => $roleName)
+                                    @if (!auth()->user()->hasRole('admin'))
+                                        @if ($roleName !== 'admin')
+                                            <option value="{{ $roleValue }}"
+                                                {{ in_array($roleValue, $userRole) ? 'selected' : '' }}>
+                                                {{ $roleName }}
+                                            </option>
+                                        @endif
+                                    @else
+                                        <option value="{{ $roleValue }}"
+                                            {{ in_array($roleValue, $userRole) ? 'selected' : '' }}>
+                                            {{ $roleName }}
+                                        </option>
+                                    @endif
+                                @endforeach
+
+                                {{--   @foreach ($roles as $roleValue => $roleName)
                                     <option value="{{ $roleValue }}"
                                         {{ in_array($roleValue, $userRole) ? 'selected' : '' }}>
                                         {{ $roleName }}
                                     </option>
-                                @endforeach
+                                @endforeach --}}
                             </select>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label fw-bold">Permissions <span class="text-danger">*</span></label>
-
-                            <div class="row">
-                                <div class="col-md-6">
-                                    @foreach ($permissions as $group => $groupPermissions)
-                                        @if ($loop->index % 2 == 0)
-                                            <div class="border p-3 rounded mb-3">
-                                                {{-- <strong>{{ $group ?? 'Tanpa Grup' }}</strong> --}}
-                                                <div class="form-check form-check-success mb-2">
-                                                    <input class="form-check-input group-check" type="checkbox"
-                                                        id="check_{{ Str::slug($group) }}"
-                                                        data-group="{{ Str::slug($group) }}">
-                                                    <label class="form-check-label fw-bold"
-                                                        for="check_{{ Str::slug($group) }}">
-                                                        All {{ $group }}
-                                                    </label>
-                                                </div>
-
-                                                <div class="row mt-2">
-                                                    @foreach ($groupPermissions as $permission)
-                                                        <div class="col-md-6">
-                                                            <div class="form-check mb-2 form-check-primary">
-                                                                <input
-                                                                    class="form-check-input rounded-circle perm-{{ Str::slug($group) }}"
-                                                                    type="checkbox" name="permissions[]"
-                                                                    id="perm_{{ $permission->id }}"
-                                                                    value="{{ $permission->name }}"
-                                                                    {{ in_array($permission->name, $userPermissions) ? 'checked' : '' }}>
-                                                                <label class="form-check-label"
-                                                                    for="perm_{{ $permission->id }}">
-                                                                    {{ ucwords(str_replace('_', ' ', $permission->name)) }}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-
-                                <div class="col-md-6">
-                                    @foreach ($permissions as $group => $groupPermissions)
-                                        @if ($loop->index % 2 == 1)
-                                            <div class="border p-3 rounded mb-3">
-                                                {{--  <strong>{{ $group ?? 'Tanpa Grup' }}</strong> --}}
-                                                <div class="form-check form-check-success mb-2">
-                                                    <input class="form-check-input group-check" type="checkbox"
-                                                        id="check_{{ Str::slug($group) }}"
-                                                        data-group="{{ Str::slug($group) }}">
-                                                    <label class="form-check-label fw-bold"
-                                                        for="check_{{ Str::slug($group) }}">
-                                                        All {{ $group }}
-                                                    </label>
-                                                </div>
-
-                                                <div class="row mt-2">
-                                                    @foreach ($groupPermissions as $permission)
-                                                        <div class="col-md-6">
-                                                            <div class="form-check mb-2 form-check-primary">
-                                                                <input
-                                                                    class="form-check-input rounded-circle perm-{{ Str::slug($group) }}"
-                                                                    type="checkbox" name="permissions[]"
-                                                                    id="perm_{{ $permission->id }}"
-                                                                    value="{{ $permission->name }}"
-                                                                    {{ in_array($permission->name, $userPermissions) ? 'checked' : '' }}>
-                                                                <label class="form-check-label"
-                                                                    for="perm_{{ $permission->id }}">
-                                                                    {{ ucwords(str_replace('_', ' ', $permission->name)) }}
-                                                                </label>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        @endif
-                                    @endforeach
-                                </div>
-                            </div>
-
-                        </div>
-                        
                         <div class="text-end">
                             <button class="btn btn-primary waves-effect waves-light" type="submit">Simpan</button>
                             <a href="{{ route('user.index') }}" class="btn btn-secondary waves-effect">Batal</a>

@@ -8,13 +8,17 @@ Route::get('/', function () {
     return redirect('/login');
 });
 
+Route::get('user/register', [App\Http\Controllers\UserController::class,'register'])->name('user.register');
+Route::post('/user/daftar', [App\Http\Controllers\UserController::class,'daftar'])->name('user.daftar');
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 });
 
-Route::middleware(['auth', 'role:' . implode('|', \App\Models\Role::pluck('name')->toArray())])->group(function () {
+Route::middleware([
+    'auth', 'role:' . implode('|', config('roles.access_user_routes'))])->group(function () {
     // Grop Role
     Route::get('/role', [App\Http\Controllers\RoleController::class, 'index'])->name('roles.index');
     Route::get('/role/create', [App\Http\Controllers\RoleController::class, 'create'])->name('roles.create');
@@ -30,6 +34,14 @@ Route::middleware(['auth', 'role:' . implode('|', \App\Models\Role::pluck('name'
     Route::get('/permission/{permission}/edit', [App\Http\Controllers\PermissionController::class, 'edit'])->name('permission.edit');
     Route::put('/permission/{id}', [App\Http\Controllers\PermissionController::class, 'update'])->name('permission.update');
     Route::delete('/permission/{permission}', [App\Http\Controllers\PermissionController::class, 'destroy'])->name('permission.destroy');
+
+    //Chart of Account
+    Route::get('/accouting', [App\Http\Controllers\CoaController::class, 'index'])->name('akun.index');
+    Route::get('/accouting/create', [App\Http\Controllers\CoaController::class, 'create'])->name('akun.create');
+    Route::post('/accouting', [App\Http\Controllers\CoaController::class,'store'])->name('akun.store');
+    Route::get('/accouting/{accouting}/edit', [App\Http\Controllers\CoaController::class, 'edit'])->name('akun.edit');
+    Route::put('/accouting/{id}', [App\Http\Controllers\CoaController::class, 'update'])->name('akun.update');
+    Route::delete('/accouting/{accouting}', [App\Http\Controllers\CoaController::class, 'destroy'])->name('akun.destroy');
 });
 Route::middleware([
     'auth', 'role:' . implode('|', config('roles.access_user_routes'))])->group(function () {

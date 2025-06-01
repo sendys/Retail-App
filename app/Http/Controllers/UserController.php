@@ -17,13 +17,25 @@ class UserController extends Controller
      */
     public function index(Request $request)
     {
+        if (!auth()->user()->can('manage user')) {
+            abort(403, 'Anda tidak memiliki izin akses.');
+        }
+
         $query = User::query();
 
         if ($request->has('search')) {
             $searchTerm = '%' . $request->input('search') . '%';
             $query->where(function ($q) use ($searchTerm) {
+                // Base search conditions
                 $q->where('name', 'like', $searchTerm)
                     ->orWhere('email', 'like', $searchTerm);
+            });
+        }
+
+        // Filter hasil untuk user biasa (tanpa melihat admin)
+        if (auth()->user()->hasRole('user')) {
+            $query->whereDoesntHave('roles', function ($q) {
+                $q->where('name', 'admin');
             });
         }
 
@@ -37,9 +49,10 @@ class UserController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->can('create users')) {
-            abort(403, 'Anda tidak memiliki izin untuk menambah user.');
+        if (!auth()->user()->can('create user')) {
+            return redirect()->route('user.index')->with('error', 'Anda tidak memiliki izin untuk menambah user.');
         }
+        
         $roles = Role::pluck('name', 'name')->all();
         return view('user.create', compact('roles'));
     }
@@ -82,10 +95,15 @@ class UserController extends Controller
     public function edit($id)
     {
          // Cek manual jika diperlukan:
-         if (!auth()->user()->can('edit users')) {
-            abort(403, 'Anda tidak memiliki izin untuk edit user.');
+        if (!auth()->user()->can('edit user')) {
+            return redirect()->route('user.index')->with('error', 'Anda tidak memiliki izin untuk edit user.');
         }
         
+        // Tambahan: user hanya boleh edit dirinya sendiri
+        if (!auth()->user()->hasRole('admin') && auth()->id() !== (int) $id) {
+            return redirect()->route('user.index')->with('error', 'Anda hanya bisa mengedit akun Anda sendiri.');
+        }
+
         $user = User::findOrFail($id);
         $roles = Role::pluck('name', 'name'); // nama role sebagai value & label
         $userRole = $user->getRoleNames()->toArray(); // ambil role user
@@ -107,7 +125,9 @@ class UserController extends Controller
         $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|email|unique:users,email,' . $id,
-            'password' => 'nullable|string|min:6|confirmed',
+            'phone' =>'required|numeric',
+            'company_name' =>'required|string|max:255',
+            'password' => 'nullable|string|min:8|confirmed|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
             'roles' => 'required|array',
             'permissions' => 'nullable|array',
         ]);
@@ -115,6 +135,8 @@ class UserController extends Controller
         // Update data dasar
         $user->name = $request->name;
         $user->email = $request->email;
+        $user->phone = $request->phone;
+        $user->company_name = $request->company_name;
 
         // Update password jika diisi
         if ($request->filled('password')) {
@@ -137,9 +159,14 @@ class UserController extends Controller
      */
     public function destroy(User $user)
     {
+        // Cegah user menghapus dirinya sendiri
+        if (auth()->user() == $user) {
+            return redirect()->route('user.index')->with('error', 'Anda tidak bisa menghapus akun Anda sendiri.');
+        }
+
         // Cek manual jika diperlukan:
-        if (!auth()->user()->can('delete users')) {
-            abort(403, 'Anda tidak memiliki izin untuk menghapus user.');
+        if (!auth()->user()->can('delete user')) {
+            return redirect()->route('user.index')->with('error', 'Anda tidak memiliki izin untuk menghapus user.');
         }
 
         // Cegah user menghapus dirinya sendiri
@@ -151,5 +178,34 @@ class UserController extends Controller
 
         return redirect()->route('user.index')
             ->with('success', 'User deleted successfully');
+    }
+
+    public function register()  {
+        return view('user.register');
+    }
+
+    public function daftar(Request $request)
+    {
+        $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:8|regex:/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]+$/',
+            'phone' => 'required|numeric',
+            'company_name' =>'required|string|max:255',
+        ]);
+
+        $user = User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'phone' => $request->phone,
+            'company_name' => $request->company_name,
+        ]);
+
+        /* $user->assignRole($request->input('user')); */
+        $user->syncRoles(['user']);
+
+        return redirect()->route('user.index')
+            ->with('success', 'User created successfully.');
     }
 }

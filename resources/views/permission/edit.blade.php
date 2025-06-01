@@ -36,7 +36,7 @@
 
                         <div class="text-end">
                             <button class="btn btn-primary waves-effect waves-light" type="submit">Simpan</button>
-                            <a href="{{ url()->previous() }}" class="btn btn-secondary waves-effect">Kembali</a>
+                            <a href="{{ route('permission.index') }}" class="btn btn-secondary waves-effect">Batal</a>
 
                         </div>
                     </form>
