@@ -17,6 +17,7 @@ class ChartOfAccount extends Model
         'account_balance',
         'parent_id',
         'level',
+        'is_postable',
     ];
 
     public function parent(): BelongsTo

@@ -446,7 +446,7 @@
                         </ul>
                     </div>
                 </li>
-
+                @endhasrole
                 <li class="menu-item">
                     <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link">
                         <span class="menu-icon"><i data-feather="package"></i></span>
@@ -533,7 +533,7 @@
                         </ul>
                     </div>
                 </li>
-            @endhasrole
+            
 
             <li class="menu-item">
                 <a href="#menuLayouts" data-bs-toggle="collapse" class="menu-link">

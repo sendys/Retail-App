@@ -8,6 +8,7 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * php artisan migrate --path=/database/migrations/2025_05_31_155110_create_chart_of_account_table.php
      */
     public function up(): void
     {
@@ -20,6 +21,7 @@ return new class extends Migration
             $table->unsignedBigInteger('parent_id')->nullable();
             $table->integer('level')->default(1);
             $table->boolean('is_active')->default(true);
+            $table->enum('is_postable', ['yes', 'no'])->default('yes');
             $table->timestamps();
             $table->softDeletes();
 

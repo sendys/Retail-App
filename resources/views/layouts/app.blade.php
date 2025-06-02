@@ -17,7 +17,7 @@
     <!-- Begin page -->
     <div id="wrapper">
 
-        @include('layouts.partials.preloader')
+       {{--  @include('layouts.partials.preloader') --}}
         @include('layouts.partials.menu')
 
         <!-- ============================================================== -->

@@ -22,7 +22,7 @@
                             <div class="col-md-4 mb-3">
                                 <label for="parent_id" class="form-label">Parent Akun (jika ada)<span
                                         class="text-danger">*</span></label>
-                                <select class="form-control select2" id="parent_id" name="parent_id" required
+                                <select class="form-select select2" id="parent_id" name="parent_id" required
                                     data-toggle="select2" data-width="100%"></option>
                                     <option value="">-- Tidak ada (Root) --</option>
                                     @foreach ($data as $akun)
@@ -45,14 +45,12 @@
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
-                                <label for="name" class="form-label">Level<span class="text-danger">*</span></label>
-                                <select class="form-control select2" id="level" name="level" required
+                                <label for="name" class="form-label">Posted<span class="text-danger">*</span></label>
+                                <select class="form-control select2" id="is_postable" name="is_postable" required
                                     data-toggle="select2" data-width="100%"></option>
-                                    <option value="1">1</option>
-                                    <option value="2">2</option>
-                                    <option value="3">3</option>
-                                    <option value="4">4</option>
-                                    <option value="5">5</option>
+                                    <option value="yes">Yes</option>
+                                    <option value="no">No</option>
+                                   
                                 </select>
                             </div>
                         </div>
@@ -61,16 +59,23 @@
                             <label for="name" class="form-label">Kode Akun<span class="text-danger">*</span></label>
                             <input type="text" id="account_code" name="account_code" value="{{ old('account_code') }}"
                                 parsley-trigger="change" required placeholder="kode akun" class="form-control" />
+                            @if ($errors->has('account_code'))
+                                <div class="text-danger">{{ $errors->first('account_code') }}</div>
+                            @endif
                         </div>
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama Akun<span class="text-danger">*</span></label>
                             <input type="text" id="account_name" name="account_name" value="{{ old('account_name') }}"
                                 parsley-trigger="change" required placeholder="nama akun" class="form-control" />
+                            @if ($errors->has('account_name'))
+                                <div class="text-danger">{{ $errors->first('account_name') }}</div>
+                            @endif
                         </div>
 
                         <div class="text-end">
                             <button class="btn btn-primary waves-effect waves-light" type="submit">Simpan</button>
+
                             <a href="{{ route('akun.index') }}" class="btn btn-secondary waves-effect">Kembali</a>
 
                         </div>
@@ -79,6 +84,22 @@
                 </div>
             </div>
         </div>
-
     </div>
+
+    @if (session('success'))
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                $.toast({
+                    heading: 'Success',
+                    text: `{!! session('success') !!}`,
+                    showHideTransition: 'slide up',
+                    icon: 'success',
+                    loader: true,
+                    loaderBg: '#2ecc71',
+                    position: 'top-right',
+                    hideAfter: 3000
+                });
+            });
+        </script>
+    @endif
 @endsection
