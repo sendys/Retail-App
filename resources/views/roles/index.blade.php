@@ -62,7 +62,7 @@
 
                     @if (@isset($roles) && $roles->count() > 0)
                         <div class="table-responsive">
-                            <table class="table table-centered table-nowrap table-hover mb-0" id="rolesTable">
+                            <table class="table table-centered table-nowrap table-hover table-sm mb-0" id="rolesTable">
                                 <thead>
                                     <tr>
                                         <th>No.</th>

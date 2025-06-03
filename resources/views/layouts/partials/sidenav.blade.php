@@ -313,14 +313,14 @@
             <li class="menu-item">
                 <a href="#menuContacts" data-bs-toggle="collapse" class="menu-link">
                     <span class="menu-icon"><i data-feather="book"></i></span>
-                    <span class="menu-text"> Contacts </span>
+                    <span class="menu-text"> Costumer </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="menuContacts">
                     <ul class="sub-menu">
                         <li class="menu-item">
-                            <a href="contacts-list.php" class="menu-link">
-                                <span class="menu-text">Members List</span>
+                            <a href="{{ route('customer.index') }}" class="menu-link">
+                                <span class="menu-text">Data Customer</span>
                             </a>
                         </li>
                         <li class="menu-item">

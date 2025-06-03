@@ -43,15 +43,10 @@ class RoleAndPermissionSeeder extends Seeder
 
         // 4. Definisikan izin
         $permissions = [
-            'view dashboard',   // Lebih deskriptif
-            'manage users',     // Izin umum untuk CRUD user
-            'create users',
-            'edit users',
-            'delete users',     // Sudah ada 'delete user' dari Anda, ini contoh variasi
-            // Tambahkan izin lain sesuai kebutuhan
-            // 'create articles',
-            // 'edit articles',
-            // 'publish articles',
+            'manage user',
+            'create user',
+            'edit user',
+            'delete user',
         ];
 
         // Buat izin (atau pastikan sudah ada)
@@ -61,26 +56,20 @@ class RoleAndPermissionSeeder extends Seeder
 
         // 5. Buat peran (atau pastikan sudah ada)
         $roleAdmin = Role::firstOrCreate(['name' => 'admin', 'guard_name' => 'web']);
-        $roleUser = Role::firstOrCreate(['name' => 'user', 'guard_name' => 'web']);
-        // $roleEditor = Role::firstOrCreate(['name' => 'editor', 'guard_name' => 'web']);
-
+        
+        
         // 6. Berikan izin ke peran
         // Admin mendapatkan semua izin yang baru saja dibuat
         $roleAdmin->syncPermissions(Permission::whereIn('name', [
-            'view dashboard',
-            'manage users', // Ini bisa mencakup create, edit, delete users jika Anda mau
-            'create users',
-            'edit users',
-            'delete users',
-            // tambahkan semua permission yang admin butuhkan
+            'manage user',
+            'create user',
+            'edit user',
+            'delete user',
         ])->get());
+
         // Atau jika admin memang superadmin yang bisa segalanya:
         // $roleAdmin->syncPermissions(Permission::all());
 
-
-        // User mendapatkan izin terbatas
-        $roleUser->syncPermissions(['view dashboard']);
-        // $roleEditor->syncPermissions(['view dashboard', 'create articles', 'edit articles']);
 
         // 7. Buat pengguna contoh dan tetapkan peran
         $adminUser = User::firstOrCreate(
@@ -90,16 +79,8 @@ class RoleAndPermissionSeeder extends Seeder
                 'password' => Hash::make('password'), // Gunakan Hash::make
             ]
         );
-        $adminUser->syncRoles(['admin']); // syncRoles lebih baik untuk seeder
 
-        $regularUser = User::firstOrCreate(
-            ['email' => 'user@mail.com'],
-            [
-                'name' => 'Regular User', // Ganti 'User' agar lebih deskriptif
-                'password' => Hash::make('password'),
-            ]
-        );
-        $regularUser->syncRoles(['user']);
+        $adminUser->syncRoles(['admin']); // syncRoles lebih baik untuk seeder
 
         // 8. Aktifkan kembali foreign key checks (jika sebelumnya dinonaktifkan dan drivernya MySQL)
         if ($driver === 'mysql') {
