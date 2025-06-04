@@ -86,19 +86,37 @@
                                     @enderror
                                 </div>
 
-                                <div class="mb-3">
+                                <div class="mb-3 position-relative">
                                     <label for="password" class="form-label">Password</label>
                                     <div class="input-group input-group-merge">
                                         <input type="password" id="password" name="password"
                                             class="form-control @error('password') is-invalid @enderror"
-                                            placeholder="Enter your password">
+                                            oninput="validatePassword(this.value)" onfocus="showTooltip()"
+                                            onblur="hideTooltip()" placeholder="Enter your password">
+
+                                        <div id="passwordTooltip"
+                                            class="position-absolute p-3 bg-white rounded shadow border"
+                                            style="top: 100%; left: 0; display: none; z-index: 1000; width: 300px; font-size: 11px;">
+                                            <strong>Password harus</strong>
+                                            <ul class="list-unstyled mt-2 mb-0">
+                                                <li id="check-number" class="text-danger">1. Mengandung 1 angka</li>
+                                                <li id="check-uppercase" class="text-danger">2. Mengandung 1 huruf
+                                                    besar</li>
+                                                <li id="check-lowercase" class="text-danger">3. Mengandung huruf kecil
+                                                </li>
+                                                <li id="check-caracter" class="text-danger">4. Mengandung 1 karakter
+                                                    khusus (@$!%*?&)
+                                                </li>
+                                                <li id="check-length" class="text-danger">5. Minimal 8 karakter</li>
+                                            </ul>
+                                        </div>
                                         <div class="input-group-text" data-password="false">
                                             <span class="password-eye"></span>
                                         </div>
-                                        <small class="form-text text-muted">
+                                        {{-- <small class="form-text text-muted">
                                             Kata sandi harus mengandung setidaknya satu huruf kecil, satu huruf besar,
                                             satu angka dan satu karakter khusus (@$!%*?&)
-                                        </small>
+                                        </small> --}}
                                         @error('password')
                                             <div class="invalid-feedback d-block">{{ $message }}</div>
                                         @enderror
@@ -114,7 +132,8 @@
                                     </div>
                                 </div>
                                 <div class="text-center d-grid">
-                                    <button class="btn btn-success" type="submit" id="submitButton" disabled> Sign Up
+                                    <button class="btn btn-success" type="submit" id="submitButton" disabled> Sign
+                                        Up
                                     </button>
                                 </div>
 
@@ -246,6 +265,37 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-..."
         crossorigin="anonymous"></script>
+    <script>
+        function showTooltip() {
+            document.getElementById('passwordTooltip').style.display = 'block';
+        }
+
+        function hideTooltip() {
+            document.getElementById('passwordTooltip').style.display = 'none';
+        }
+
+        function validatePassword(password) {
+            // Cek angka
+            document.getElementById('check-number').className =
+                /\d/.test(password) ? 'text-success' : 'text-danger';
+
+            // Cek huruf besar
+            document.getElementById('check-uppercase').className =
+                /[A-Z]/.test(password) ? 'text-success' : 'text-danger';
+
+            // Cek huruf kecil
+            document.getElementById('check-lowercase').className =
+                /[a-z]/.test(password) ? 'text-success' : 'text-danger';
+
+            // Cek karackter khusus
+            document.getElementById('check-caracter').className =
+                /[@$!%*?&]/.test(password) ? 'text-success' : 'text-danger';
+
+            // Cek panjang minimal
+            document.getElementById('check-length').className =
+                password.length >= 8 ? 'text-success' : 'text-danger';
+        }
+    </script>
 
 </body>
 

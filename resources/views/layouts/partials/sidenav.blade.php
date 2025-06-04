@@ -324,8 +324,8 @@
                             </a>
                         </li>
                         <li class="menu-item">
-                            <a href="contacts-profile.php" class="menu-link">
-                                <span class="menu-text">Profile</span>
+                            <a href="{{ route('supplier.index') }}" class="menu-link">
+                                <span class="menu-text">Data Supplier</span>
                             </a>
                         </li>
                     </ul>
@@ -446,94 +446,94 @@
                         </ul>
                     </div>
                 </li>
-                @endhasrole
-                <li class="menu-item">
-                    <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link">
-                        <span class="menu-icon"><i data-feather="package"></i></span>
-                        <span class="menu-text"> Accounting </span>
-                        <span class="menu-arrow"></span>
-                    </a>
-                    <div class="collapse" id="menuExpages">
-                        <ul class="sub-menu">
-                            <li class="menu-item">
-                                <a href="{{ route('akun.index') }}" class="menu-link">
-                                    <span class="menu-text">Data Akun</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-timeline.php" class="menu-link">
-                                    <span class="menu-text">Timeline</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-sitemap.php" class="menu-link">
-                                    <span class="menu-text">Sitemap</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-invoice.php" class="menu-link">
-                                    <span class="menu-text">Invoice</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-faqs.php" class="menu-link">
-                                    <span class="menu-text">FAQs</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-search-results.php" class="menu-link">
-                                    <span class="menu-text">Search Results</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-pricing.php" class="menu-link">
-                                    <span class="menu-text">Pricing</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-maintenance.php" class="menu-link">
-                                    <span class="menu-text">Maintenance</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-coming-soon.php" class="menu-link">
-                                    <span class="menu-text">Coming Soon</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-gallery.php" class="menu-link">
-                                    <span class="menu-text">Gallery</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-404.php" class="menu-link">
-                                    <span class="menu-text">Error 404</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-404-two.php" class="menu-link">
-                                    <span class="menu-text">Error 404 Two</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-404-alt.php" class="menu-link">
-                                    <span class="menu-text">Error 404-alt</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-500.php" class="menu-link">
-                                    <span class="menu-text">Error 500</span>
-                                </a>
-                            </li>
-                            <li class="menu-item">
-                                <a href="pages-500-two.php" class="menu-link">
-                                    <span class="menu-text">Error 500 Two</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                </li>
-            
+            @endhasrole
+            <li class="menu-item">
+                <a href="#menuExpages" data-bs-toggle="collapse" class="menu-link">
+                    <span class="menu-icon"><i data-feather="package"></i></span>
+                    <span class="menu-text"> Accounting </span>
+                    <span class="menu-arrow"></span>
+                </a>
+                <div class="collapse" id="menuExpages">
+                    <ul class="sub-menu">
+                        <li class="menu-item">
+                            <a href="{{ route('akun.index') }}" class="menu-link">
+                                <span class="menu-text">Data Akun</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-timeline.php" class="menu-link">
+                                <span class="menu-text">Timeline</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-sitemap.php" class="menu-link">
+                                <span class="menu-text">Sitemap</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-invoice.php" class="menu-link">
+                                <span class="menu-text">Invoice</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-faqs.php" class="menu-link">
+                                <span class="menu-text">FAQs</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-search-results.php" class="menu-link">
+                                <span class="menu-text">Search Results</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-pricing.php" class="menu-link">
+                                <span class="menu-text">Pricing</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-maintenance.php" class="menu-link">
+                                <span class="menu-text">Maintenance</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-coming-soon.php" class="menu-link">
+                                <span class="menu-text">Coming Soon</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-gallery.php" class="menu-link">
+                                <span class="menu-text">Gallery</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-404.php" class="menu-link">
+                                <span class="menu-text">Error 404</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-404-two.php" class="menu-link">
+                                <span class="menu-text">Error 404 Two</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-404-alt.php" class="menu-link">
+                                <span class="menu-text">Error 404-alt</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-500.php" class="menu-link">
+                                <span class="menu-text">Error 500</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="pages-500-two.php" class="menu-link">
+                                <span class="menu-text">Error 500 Two</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+
 
             <li class="menu-item">
                 <a href="#menuLayouts" data-bs-toggle="collapse" class="menu-link">

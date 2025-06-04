@@ -17,7 +17,7 @@
     <!-- Begin page -->
     <div id="wrapper">
 
-       {{--  @include('layouts.partials.preloader') --}}
+        {{--  @include('layouts.partials.preloader') --}}
         @include('layouts.partials.menu')
 
         <!-- ============================================================== -->
@@ -76,6 +76,7 @@
     <!-- Tost-->
     <script src="{{ asset('assets/libs/jquery-toast-plugin/jquery.toast.min.js') }}"></script>
     <script src="{{ asset('assets/libs/dragula/dragula.min.js') }}"></script>
+    <script src="{{ asset('assets/libs/tippy.js/tippy.all.min.js') }}"></script>
     <!-- SweetAlert2 JS -->
     {{-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> --}}
 
