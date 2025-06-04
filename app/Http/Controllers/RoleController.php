@@ -15,9 +15,9 @@ class RoleController extends Controller
      */
     public function index(Request $request)
     {
-        if (!auth()->user()->can('manage role')) {
+       /*  if (!auth()->user()->can('manage role')) {
             abort(403, 'Anda tidak memiliki izin akses.');
-        }
+        } */
 
         $query = Role::query();
 
@@ -35,9 +35,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        if (!auth()->user()->can('create role')) {
+       /*  if (!auth()->user()->can('create role')) {
             abort(403, 'Anda tidak memiliki izin untuk menambah user.');
-        }
+        } */
 
         $permissions = Permission::all()->groupBy('group');
         return view('roles.create', compact('permissions'));

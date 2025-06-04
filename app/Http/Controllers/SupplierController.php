@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\Supplier\SupplierRepositoriesInterface;
 use Illuminate\Http\Request;
 use App\Models\Supplier;
+use Illuminate\Support\Facades\Crypt;
 
 class SupplierController extends Controller
 {
@@ -18,7 +19,7 @@ class SupplierController extends Controller
     public function index(Request $request)
     {
         $params = $request->all();
-        $suppliers = $this->supplierRepo->paginatedBySort($params, 10);
+        $suppliers = $this->supplierRepo->paginatedBySort($params, $params['per_page'] ?? 10);
         return view('supplier.index', compact('suppliers'));
     }
 
@@ -40,27 +41,24 @@ class SupplierController extends Controller
         return redirect()->route('supplier.index')->with('success', 'Supplier created successfully.');
     }
 
-    public function edit(Supplier $supplier)
+    public function edit($id)
     {
+        $ids = Crypt::decryptString($id);
+        $supplier = $this->supplierRepo->find($ids);
         return view('supplier.edit', compact('supplier'));
     }
 
-    public function update(Request $request, Supplier $supplier)
+    public function update(Request $request, $id)
     {
-        $validated = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:supplier,email,' . $supplier->id,
-            'phone' => 'nullable|string|max:50',
-            'address' => 'nullable|string|max:255',
-            'company_name' => 'nullable|string|max:255',
-        ]);
-        $this->supplierRepo->update($supplier->id, $validated);
+        $data = $request->all();
+        $this->supplierRepo->update($id, $data);
         return redirect()->route('supplier.index')->with('success', 'Supplier updated successfully.');
+    
     }
 
-    public function destroy(Supplier $supplier)
+    public function destroy($id)
     {
-        $this->supplierRepo->delete($supplier->id);
+        $this->supplierRepo->delete($id);
         return redirect()->route('supplier.index')->with('success', 'Supplier deleted successfully.');
     }
 }

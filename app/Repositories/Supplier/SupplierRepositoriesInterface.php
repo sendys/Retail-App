@@ -10,7 +10,7 @@ interface SupplierRepositoriesInterface
 
     public function Paginated(int $perPage = 15);
 
-    public function paginatedBySort(array $params = [], int $perPage = 15);
+    public function paginatedBySort(array $params = [], int $perPage = 10);
 
     public function find(int $id): ?Supplier;
 

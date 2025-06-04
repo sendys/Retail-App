@@ -18,7 +18,7 @@ class SupplierRepositories implements SupplierRepositoriesInterface
         return Supplier::paginate($perPage);
     }
 
-    public function paginatedBySort(array $params = [], int $perPage = 15)
+    public function paginatedBySort(array $params = [], int $perPage = 10)
     {
         $query = Supplier::query();
 

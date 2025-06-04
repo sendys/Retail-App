@@ -18,6 +18,8 @@ class CustomerController extends Controller
                   ->orWhere('company_name', 'like', $searchTerm);
             });
         }
+
+        //dd($query->get());
         $customers = $query->paginate(10);
         return view('customer.index', compact('customers'));
     }

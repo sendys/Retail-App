@@ -48,9 +48,10 @@
                                 </div>
 
                                 <label for="inputPassword2" class="visually-hidden">Search</label>
-                                <div class="me-3">
+                                <div class="search-bar position-relative mb-sm-0 mb-2">
                                     <input type="search" name="search" class="form-control my-1 my-lg-0" id="search"
                                         placeholder="Search..." value="{{ request('search') }}">
+                                    <span class="mdi mdi-magnify"></span>
                                 </div>
 
                             </form>
@@ -88,6 +89,7 @@
                                             <div class="spinner-border text-primary" role="status">
                                                 <span class="visually-hidden">Loading...</span>
                                             </div>
+                                            <p class="mt-2">Sedang memuat data...</p>
                                         </td>
                                     </tr>
 
@@ -122,9 +124,9 @@
                                                     </button>
                                                 </form>
                                             </td>
-                                            <td style="padding-left: {{ $level * 20 }}px;">{{ $coa->account_code }}</td>
-                                            <td style="padding-left: {{ $level * 20 }}px;">{{ $coa->account_name }}</td>
-                                            <td>{{ ucfirst($coa->account_type) }}</td>
+                                            <td style="padding-left: {{ $level * 20 }}px; font-weight: {{ is_null($coa->parent_id) ? 'bold' : 'normal' }};">{{ $coa->account_code }}</td>
+                                            <td style="padding-left: {{ $level * 20 }}px; font-weight: {{ is_null($coa->parent_id) ? 'bold' : 'normal' }};">{{ $coa->account_name }}</td>
+                                            <td style="font-weight: {{ is_null($coa->parent_id) ? 'bold' : 'normal' }};">{{ ucfirst($coa->account_type) }}</td>
                                             <td>
                                                 @if ($coa->is_postable == 'yes')
                                                     <i class="mdi mdi-check-circle text-success"></i>
@@ -132,7 +134,7 @@
                                                     <i class="mdi mdi-close-circle text-danger"></i>
                                                 @endif
                                             </td>
-                                            <td class="text-end">
+                                            <td class="text-end" style="font-weight: {{ is_null($coa->parent_id) ? 'bold' : 'normal' }};">
                                                 {{ number_format($coa->account_balance ?? 0, 2, ',', '.') }}
                                             </td>
                                         </tr>
@@ -145,8 +147,13 @@
                             {!! $data->appends(['search' => request('search'), 'per_page' => request('per_page')])->links('pagination::bootstrap-5') !!}
                         </div>
                     @else
-                        <div class="alert alert-info">
-                            <div class="text-center">No record found.</div>
+                        <div class="text-center p-4">
+                            <img src="{{ asset('assets/images/empty.png') }}" height="150" alt="No data">
+                            <h4 class="text-muted mt-3">No Records Found</h4>
+                            <p class="text-muted">We couldn't find any akun perkiraan records. Try adding some new perkiraan.</p>
+                            <a href="{{ route('akun.create') }}" class="btn btn-primary mt-2">
+                                <i class="mdi mdi-plus me-1"></i> Add New akun
+                            </a>
                         </div>
                     @endif
 

@@ -313,19 +313,24 @@
             <li class="menu-item">
                 <a href="#menuContacts" data-bs-toggle="collapse" class="menu-link">
                     <span class="menu-icon"><i data-feather="book"></i></span>
-                    <span class="menu-text"> Costumer </span>
+                    <span class="menu-text"> Mitra Bisnis </span>
                     <span class="menu-arrow"></span>
                 </a>
                 <div class="collapse" id="menuContacts">
                     <ul class="sub-menu">
                         <li class="menu-item">
                             <a href="{{ route('customer.index') }}" class="menu-link">
-                                <span class="menu-text">Data Customer</span>
+                                <span class="menu-text">Customer</span>
                             </a>
                         </li>
                         <li class="menu-item">
                             <a href="{{ route('supplier.index') }}" class="menu-link">
-                                <span class="menu-text">Data Supplier</span>
+                                <span class="menu-text">Supplier</span>
+                            </a>
+                        </li>
+                        <li class="menu-item">
+                            <a href="{{ route('supplier.index') }}" class="menu-link">
+                                <span class="menu-text">Grup Mitra Bisnis</span>
                             </a>
                         </li>
                     </ul>

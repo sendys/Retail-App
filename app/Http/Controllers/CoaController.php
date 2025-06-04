@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Repositories\COA\COARepositoriesInterface;
 use Illuminate\Support\Validator;
 use App\Models\ChartOfAccount;
+use App\Models\Supplier;
 
 class CoaController extends Controller
 {
@@ -32,7 +33,8 @@ class CoaController extends Controller
     public function create()
     {
         $data = ChartOfAccount::orderBy('account_code')->get();
-        return view('akuntansi.create', compact('data'));
+        $suppliers = Supplier::all();
+        return view('akuntansi.create', compact('data','suppliers'));
     }
 
     public function store(Request $request)

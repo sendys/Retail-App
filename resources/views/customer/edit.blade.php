@@ -2,15 +2,22 @@
 
 @section('content')
     <?php
-    $sub_title = 'Form';
-    $title = 'Edit Customer';
+    $sub_title = 'Tables';
+    $title = 'Customer';
     ?>
+    
     @include('layouts.partials.page-title')
+    @include('layouts.partials.preloader')
+
     <div class="row">
-        <div class="col-lg-8 mx-auto">
+        <div class="col-lg-8">
             <div class="card">
                 <div class="card-body">
-                    <h4 class="header-title">Edit Customer</h4>
+                    <h4 class="header-title">Customer Edit</h4>
+                    <p class="text-muted font-14">
+                        Form ini untuk customer edit.
+                    </p>
+
                     <form action="{{ route('customer.update', $customer) }}" method="POST">
                         @csrf
                         @method('PUT')
@@ -34,11 +41,13 @@
                             <label for="address" class="form-label">Address</label>
                             <textarea class="form-control" id="address" name="address">{{ old('address', $customer->address) }}</textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary">Simpan</button>
                         <a href="{{ route('customer.index') }}" class="btn btn-secondary">Cancel</a>
                     </form>
+
                 </div>
             </div>
         </div>
+
     </div>
 @endsection

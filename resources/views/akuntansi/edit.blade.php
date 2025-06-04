@@ -4,7 +4,9 @@
     $sub_title = 'Tables';
     $title = 'Data Akun';
     ?>
+
     @include('layouts.partials.page-title')
+    @include('layouts.partials.preloader')
 
     <div class="row">
         <div class="col-lg-8">
@@ -27,7 +29,8 @@
                                     data-toggle="select2" data-width="100%"></option>
                                     <option value="">-- Tidak ada (Root) --</option>
                                     @foreach ($accounts as $akun)
-                                        <option value="{{ $akun->id }}" {{ $account->parent_id == $akun->id ? 'selected' : '' }}>
+                                        <option value="{{ $akun->id }}"
+                                            {{ $account->parent_id == $akun->id ? 'selected' : '' }}>
                                             {{ str_repeat('--', $akun->level - 1) . ' ' . $akun->account_code . ' - ' . $akun->account_name }}
                                         </option>
                                     @endforeach
@@ -38,28 +41,36 @@
                                         class="text-danger">*</span></label>
                                 <select class="form-control select2" id="account_type" name="account_type" required
                                     data-toggle="select2" data-width="100%"></option>
-                                    <option value="asset" {{ $account->account_type == 'asset' ? 'selected' : '' }}>Asset</option>
-                                    <option value="kewajiban" {{ $account->account_type == 'kewajiban' ? 'selected' : '' }}>Kewajiban</option>
-                                    <option value="modal" {{ $account->account_type == 'modal' ? 'selected' : '' }}>Modal</option>
-                                    <option value="pendapatan" {{ $account->account_type == 'pendapatan' ? 'selected' : '' }}>Pendapatan</option>
-                                    <option value="biaya" {{ $account->account_type == 'biaya' ? 'selected' : '' }}>Biaya</option>
+                                    <option value="asset" {{ $account->account_type == 'asset' ? 'selected' : '' }}>Asset
+                                    </option>
+                                    <option value="kewajiban" {{ $account->account_type == 'kewajiban' ? 'selected' : '' }}>
+                                        Kewajiban</option>
+                                    <option value="modal" {{ $account->account_type == 'modal' ? 'selected' : '' }}>Modal
+                                    </option>
+                                    <option value="pendapatan"
+                                        {{ $account->account_type == 'pendapatan' ? 'selected' : '' }}>Pendapatan</option>
+                                    <option value="biaya" {{ $account->account_type == 'biaya' ? 'selected' : '' }}>Biaya
+                                    </option>
                                 </select>
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="name" class="form-label">Posted<span class="text-danger">*</span></label>
                                 <select class="form-control select2" id="is_postable" name="is_postable" required
                                     data-toggle="select2" data-width="100%"></option>
-                                    <option value="yes" {{ $account->is_postable == 'yes' ? 'selected' : '' }}>Yes</option>
-                                    <option value="no" {{ $account->is_postable == 'no' ? 'selected' : '' }}>No</option>
-                                   
+                                    <option value="yes" {{ $account->is_postable == 'yes' ? 'selected' : '' }}>Yes
+                                    </option>
+                                    <option value="no" {{ $account->is_postable == 'no' ? 'selected' : '' }}>No
+                                    </option>
+
                                 </select>
                             </div>
                         </div>
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Kode Akun<span class="text-danger">*</span></label>
-                            <input type="text" id="account_code" name="account_code" value="{{ old('account_code', $account->account_code) }}"
-                                parsley-trigger="change" required placeholder="kode akun" class="form-control" />
+                            <input type="text" id="account_code" name="account_code"
+                                value="{{ old('account_code', $account->account_code) }}" parsley-trigger="change" required
+                                placeholder="kode akun" class="form-control" />
                             @if ($errors->has('account_code'))
                                 <div class="text-danger">{{ $errors->first('account_code') }}</div>
                             @endif
@@ -67,8 +78,9 @@
 
                         <div class="mb-3">
                             <label for="name" class="form-label">Nama Akun<span class="text-danger">*</span></label>
-                            <input type="text" id="account_name" name="account_name" value="{{ old('account_name', $account->account_name) }}"
-                                parsley-trigger="change" required placeholder="nama akun" class="form-control" />
+                            <input type="text" id="account_name" name="account_name"
+                                value="{{ old('account_name', $account->account_name) }}" parsley-trigger="change" required
+                                placeholder="nama akun" class="form-control" />
                             @if ($errors->has('account_name'))
                                 <div class="text-danger">{{ $errors->first('account_name') }}</div>
                             @endif

@@ -4,7 +4,9 @@
     $sub_title = 'Tables';
     $title = 'Data Akun';
     ?>
+
     @include('layouts.partials.page-title')
+    @include('layouts.partials.preloader')
 
     <div class="row">
         <div class="col-lg-8">
@@ -43,6 +45,7 @@
                                     <option value="pendapatan">Pendapatan</option>
                                     <option value="biaya">Biaya</option>
                                 </select>
+
                             </div>
                             <div class="col-md-4 mb-3">
                                 <label for="name" class="form-label">Posted<span class="text-danger">*</span></label>
@@ -50,7 +53,7 @@
                                     data-toggle="select2" data-width="100%"></option>
                                     <option value="yes">Yes</option>
                                     <option value="no">No</option>
-                                   
+
                                 </select>
                             </div>
                         </div>

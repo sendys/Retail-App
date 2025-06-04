@@ -21,8 +21,8 @@
                                 <label for="name" class="form-label">Nama Role<span class="text-danger">*</span></label>
                                 <input type="text" id="name" name="name" value="{{ old('name') }}"
                                     parsley-trigger="change" required placeholder="Nama role baru" class="form-control" />
-
                             </div>
+                            
                             <div class="col-md-6 mb-3">
                                 <label for="guard_name" class="form-label">Guard Name<span
                                         class="text-danger">*</span></label>
