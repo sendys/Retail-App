@@ -92,7 +92,7 @@ class UserController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit($id)
+    public function edit(User $user)
     {
          // Cek manual jika diperlukan:
         if (!auth()->user()->can('edit user')) {
@@ -100,11 +100,11 @@ class UserController extends Controller
         }
         
         // Tambahan: user hanya boleh edit dirinya sendiri
-        if (!auth()->user()->hasRole('admin') && auth()->id() !== (int) $id) {
+        if (!auth()->user()->hasRole('admin') && auth()->id() !== (int) $user->id) {
             return redirect()->route('user.index')->with('error', 'Anda hanya bisa mengedit akun Anda sendiri.');
         }
 
-        $user = User::findOrFail($id);
+        /* $user = User::findOrFail($user->id); */
         $roles = Role::pluck('name', 'name'); // nama role sebagai value & label
         $userRole = $user->getRoleNames()->toArray(); // ambil role user
 

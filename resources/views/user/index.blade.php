@@ -89,9 +89,9 @@
                                                 @endif
                                             </td>
                                             <td>
-                                                <a href="{{ route('user.edit', $user->id) }}" class="action-icon"><i
+                                                <a href="{{ route('user.edit', $user) }}" class="action-icon"><i
                                                         class="mdi mdi-square-edit-outline"></i></a>
-                                                <form action="{{ route('user.destroy', $user->id) }}" method="POST"
+                                                <form action="{{ route('user.destroy', $user) }}" method="POST"
                                                     class="delete-role-form" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')

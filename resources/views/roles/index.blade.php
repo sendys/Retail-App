@@ -91,10 +91,10 @@
                                                 {{ $role->updated_at->format('d M, Y') }}
                                             </td>
                                             <td>
-                                                <a href="{{ route('roles.edit', $role->id) }}" class="action-icon"><i
+                                                <a href="{{ route('roles.edit', $role) }}" class="action-icon"><i
                                                         class="mdi mdi-square-edit-outline"></i></a>
 
-                                                <form action="{{ route('roles.destroy', $role->id) }}" method="POST"
+                                                <form action="{{ route('roles.destroy', $role) }}" method="POST"
                                                     class="delete-role-form" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')
