@@ -10,9 +10,9 @@ class PermissionController extends Controller
 {
     public function index(Request $request)
     {
-        if (!auth()->user()->can('manage permission')) {
+        /* if (!auth()->user()->can('manage permission')) {
             abort(403, 'Anda tidak memiliki izin akses.');
-        }
+        } */
 
         $query = Permission::query();
 
@@ -27,9 +27,9 @@ class PermissionController extends Controller
 
     public function create()
     {
-        if (!auth()->user()->can('create permission')) {
+       /*  if (!auth()->user()->can('create permission')) {
             abort(403, 'Anda tidak memiliki izin untuk menambah user.');
-        }
+        } */
 
         return view('permission.create');
     }
@@ -53,9 +53,9 @@ class PermissionController extends Controller
 
     public function edit($id)
     {
-        if (!auth()->user()->can('edit permission')) {
+        /* if (!auth()->user()->can('edit permission')) {
             abort(403, 'Anda tidak memiliki izin untuk menambah user.');
-        }
+        } */
 
         $permission = Permission::findOrFail($id);
         return view('permission.edit', compact('permission'));
@@ -77,9 +77,9 @@ class PermissionController extends Controller
 
     public function destroy($id)
     {
-        if (!auth()->user()->can('delete permission')) {
+       /*  if (!auth()->user()->can('delete permission')) {
             abort(403, 'Anda tidak memiliki izin untuk menambah user.');
-        }
+        } */
         
         $permission = Permission::findOrFail($id);
         $permission->delete();

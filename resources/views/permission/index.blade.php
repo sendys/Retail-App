@@ -62,15 +62,32 @@
                                     <th style="width: 100px;"></th>
                                 </tr>
                             </thead>
-                            <tbody>
+                            <tbody id="data-tbody">
+                                <!-- Spinner loading -->
+                                <tr id="loading-row">
+                                    <td colspan="6" class="text-center">
+                                        <div class="spinner">
+                                            <style>
+                                                .spinner {
+                                                    width: 40px;
+                                                    height: 40px;
+                                                    position: relative;
+                                                    margin: 20px auto;
+                                                }
+                                            </style>
+                                        </div>
+                                        <p class="mt-2">Sedang memuat data...</p>
+                                    </td>
+                                </tr>
+
                                 @forelse ($groupedPermissions as $group => $items)
                                     {{-- Baris Group --}}
-                                    <tr class="table-secondary">
+                                    <tr class="table-secondary data-row d-none">
                                         <td colspan="4"><strong>Grup: {{ $group ?? 'Tanpa Grup' }}</strong></td>
                                     </tr>
 
                                     @foreach ($items as $index => $permission)
-                                        <tr>
+                                        <tr class="data-row d-none">
                                             <td class="ps-4">{{ $permission->name }}</td>
                                             <td>{{ $permission->guard_name }}</td>
                                             <td>
@@ -105,6 +122,19 @@
             </div> <!-- end card -->
         </div> <!-- end col -->
     </div>
+
+    <!-- Script: Hide spinner, show data rows -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const loadingRow = document.getElementById('loading-row');
+            const dataRows = document.querySelectorAll('.data-row');
+
+            setTimeout(() => {
+                if (loadingRow) loadingRow.remove(); // Remove spinner row
+                dataRows.forEach(row => row.classList.remove('d-none')); // Show data
+            }, 1000);
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

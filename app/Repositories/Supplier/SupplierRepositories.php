@@ -26,10 +26,10 @@ class SupplierRepositories implements SupplierRepositoriesInterface
             $search = $params['search'];
             $query->where(function ($q) use ($search) {
                 $q->where('name', 'like', "%$search%")
-                  ->orWhere('email', 'like', "%$search%")
-                  ->orWhere('company_name', 'like', "%$search%")
-                  ->orWhere('phone', 'like', "%$search%")
-                  ->orWhere('address', 'like', "%$search%");
+                    ->orWhere('email', 'like', "%$search%")
+                    ->orWhere('company_name', 'like', "%$search%")
+                    ->orWhere('phone', 'like', "%$search%")
+                    ->orWhere('address', 'like', "%$search%");
             });
         }
 
@@ -45,14 +45,19 @@ class SupplierRepositories implements SupplierRepositoriesInterface
         return Supplier::findOrFail($id);
     }
 
+    public function findByUuid(string $uuid): ?Supplier
+    {
+        return Supplier::where('uuid', $uuid)->first();
+    }
+
     public function create(array $data): Supplier
     {
         return Supplier::create($data);
     }
 
-    public function update(int $id, array $data): bool
+    public function update(string $uuid, array $data): bool
     {
-        $supplier = Supplier::findOrFail($id);
+        $supplier = Supplier::findOrFail($uuid);
         return $supplier->update($data);
     }
 

@@ -12,11 +12,13 @@ interface SupplierRepositoriesInterface
 
     public function paginatedBySort(array $params = [], int $perPage = 10);
 
+    public function findByUuid(string $uuid): ?Supplier;
+
     public function find(int $id): ?Supplier;
 
     public function create(array $data): Supplier;
 
-    public function update(int $id, array $data): bool;
+    public function update(string $uuid, array $data): bool;
 
     public function delete(int $id): bool;
 }

@@ -37,24 +37,48 @@ class SupplierController extends Controller
             'address' => 'nullable|string|max:255',
             'company_name' => 'nullable|string|max:255',
         ]);
+
+        // Cek jika ada file foto yang diunggah
         $this->supplierRepo->create($validated);
         return redirect()->route('supplier.index')->with('success', 'Supplier created successfully.');
     }
 
     public function edit($id)
     {
-        $ids = Crypt::decryptString($id);
-        $supplier = $this->supplierRepo->find($ids);
+        $supplier = $this->supplierRepo->find($id);
         return view('supplier.edit', compact('supplier'));
     }
 
+
     public function update(Request $request, $id)
     {
-        $data = $request->all();
-        $this->supplierRepo->update($id, $data);
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => "required|email|unique:supplier,email,$id",
+            'phone' => 'nullable|string|max:50',
+            'address' => 'nullable|string|max:255',
+            'company_name' => 'nullable|string|max:255',
+            'foto' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+        ]);
+
+        $supplier = $this->supplierRepo->find($id); // pastikan repo punya method `find($id)`
+
+        // Cek jika ada file foto yang diunggah
+        if ($request->hasFile('foto')) {
+            // Hapus file lama jika ada
+            if (!empty($supplier->foto) && \Illuminate\Support\Facades\Storage::disk('public')->exists($supplier->foto)) {
+                \Illuminate\Support\Facades\Storage::disk('public')->delete($supplier->foto);
+            }
+
+            // Simpan file baru
+            $validated['foto'] = $request->file('foto')->store('photos', 'public');
+        }
+
+        $this->supplierRepo->update($id, $validated);
+
         return redirect()->route('supplier.index')->with('success', 'Supplier updated successfully.');
-    
     }
+
 
     public function destroy($id)
     {

@@ -12,9 +12,9 @@ class Role extends Model
         'guard_name',
     ];
 
-    protected static function boot()
+    protected static function booted()
     {
-        parent::boot();
+       
         static::creating(function ($model) {
             if (empty($model->uuid)) {
                 $model->uuid = (string) Str::uuid();

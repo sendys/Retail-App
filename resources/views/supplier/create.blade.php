@@ -17,8 +17,9 @@
                     <p class="text-muted font-14">
                         Form ini untuk Supplier baru.
                     </p>
-                    <form action="{{ route('supplier.store') }}" method="POST">
+                    <form action="{{ route('supplier.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
+
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <div class="mb-3">

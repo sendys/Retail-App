@@ -30,11 +30,6 @@ class ChartOfAccount extends Model
         });
     }
 
-    public function getRouteKeyName()
-    {
-        return 'uuid';
-    }
-
     public function parent(): BelongsTo
     {
         return $this->belongsTo(ChartOfAccount::class, 'parent_id');
@@ -46,6 +41,11 @@ class ChartOfAccount extends Model
     public function childrenRecursive()
     {
         return $this->hasMany(ChartOfAccount::class, 'parent_id')->with('childrenRecursive');
+    }
+
+    public function getRouteKeyName()
+    {
+        return 'uuid';
     }
 
 }

@@ -105,11 +105,11 @@
                                         @endphp
                                         <tr class="data-row d-none" @class(['root-row' => $isRoot])>
                                             <td>
-                                                <a href="{{ route('akun.edit', $coa->id) }}" class="action-icon">
+                                                <a href="{{ route('akun.edit', Crypt::encrypt($coa->id)) }}" class="action-icon">
                                                     <i class="mdi mdi-square-edit-outline"></i>
                                                 </a>
 
-                                                <form action="{{ route('akun.destroy', $coa->id) }}" method="POST"
+                                                <form action="{{ route('akun.destroy',$coa->id) }}" method="POST"
                                                     class="delete-role-form" style="display: inline-block;">
                                                     @csrf
                                                     @method('DELETE')

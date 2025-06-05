@@ -17,6 +17,7 @@ class Supplier extends Model
         'phone',
         'address',
         'company_name',
+        'foto',
     ];
 
     protected static function booted()

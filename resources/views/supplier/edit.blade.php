@@ -17,7 +17,7 @@
                     <p class="text-muted font-14">
                         Form ini untuk Supplier edit.
                     </p>
-                    <form action="{{ route('supplier.update', $supplier->id) }}" method="POST">
+                    <form action="{{ route('supplier.update', $supplier->id) }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         @method('PUT')
                         

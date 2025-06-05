@@ -88,7 +88,8 @@ class CoaController extends Controller
 
     public function edit($id)
     {
-        $account = $this->coa->find($id);
+        $decryptedId = decrypt($id);
+        $account = $this->coa->find($decryptedId);
         $accounts = ChartOfAccount::orderBy('account_code')->get();
         return view('akuntansi.edit', compact('account', 'accounts'));
     }

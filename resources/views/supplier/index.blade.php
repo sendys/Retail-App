@@ -72,6 +72,7 @@
                             <table class="table table-centered table-nowrap table-hover table-sm mb-0" id="rolesTable">
                                 <thead>
                                     <tr>
+                                        <th>No</th>
                                         <th style="width: 300px;">Nama Supplier</th>
                                         <th>Email</th>
                                         <th>Telp</th>
@@ -86,8 +87,15 @@
                                     <!-- Spinner loading -->
                                     <tr id="loading-row">
                                         <td colspan="6" class="text-center">
-                                            <div class="spinner-border text-primary" role="status">
-                                                <span class="visually-hidden"></span>
+                                            <div class="spinner">
+                                                <style>
+                                                    .spinner {
+                                                        width: 40px;
+                                                        height: 40px;
+                                                        position: relative;
+                                                        margin: 20px auto;
+                                                    }
+                                                </style>
                                             </div>
                                             <p class="mt-2">Sedang memuat data...</p>
                                         </td>
@@ -95,13 +103,14 @@
 
                                     @foreach ($suppliers as $supplier)
                                         <tr class="data-row d-none">
+                                            <td style="width: 100px">{{ $loop->iteration }}</td>
                                             <td>{{ $supplier->name }}</td>
                                             <td>{{ $supplier->email }}</td>
                                             <td>{{ $supplier->phone }}</td>
                                             <td>{{ $supplier->company_name }}</td>
                                             <td>{{ $supplier->address }}</td>
                                             <td>
-                                                <a href="{{ url('/supplier/' . Crypt::encryptString($supplier->id) . '/edit') }}" class="action-icon">
+                                                <a href="{{ route('supplier.edit', $supplier->id) }}" class="action-icon">
                                                     <i class="mdi mdi-square-edit-outline"></i>
                                                 </a>
                                                 <form action="{{ route('supplier.destroy', $supplier->id) }}"

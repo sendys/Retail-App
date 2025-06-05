@@ -49,7 +49,7 @@ class COARepositories implements COARepositoriesInterface
         return $query->paginate($perPage)->appends($params);
     }
 
-    public function find(int $id): ?COA
+    public function find(int $id): COA
     {
         return COA::findOrFail($id);
     }

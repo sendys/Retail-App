@@ -8,11 +8,12 @@ return new class extends Migration
 {
     /**
      * Run the migrations.
+     * php artisan migrate --path=/database/migrations/2025_06_04_225111_add_field_uuid_to_users_table.php
      */
     public function up(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->uuid('uuid')->unique()->after('id');
+            $table->uuid('uuid')->after('id')->unique()->nullable();
         });
     }
 
@@ -22,7 +23,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn(['uuid']);
+            $table->dropColumn('uuid');
         });
     }
 };

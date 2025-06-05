@@ -111,7 +111,7 @@ class UserController extends Controller
         $userPermissions = $user->getPermissionNames()->toArray();
         $permissions = Permission::all()->groupBy('group');
 
-        return view('user.edit', compact('user', 'roles', 'userRole', 'permissions', 'userPermissions'));
+        return view('user.edit', compact('roles', 'userRole', 'permissions', 'userPermissions'));
     }
 
     /**

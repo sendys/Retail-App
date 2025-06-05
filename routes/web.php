@@ -66,6 +66,6 @@ Route::middleware([
     Route::get('/supplier/create', [App\Http\Controllers\SupplierController::class, 'create'])->name('supplier.create');
     Route::post('/supplier', [App\Http\Controllers\SupplierController::class, 'store'])->name('supplier.store');
     Route::get('/supplier/{supplier}', [App\Http\Controllers\SupplierController::class, 'edit'])->name('supplier.edit');
-    Route::put('/supplier/{id}', [App\Http\Controllers\SupplierController::class, 'update'])->name('supplier.update');
+    Route::put('/supplier/{supplier}', [App\Http\Controllers\SupplierController::class, 'update'])->name('supplier.update');
     Route::delete('/supplier/{supplier}', [App\Http\Controllers\SupplierController::class, 'destroy'])->name('supplier.destroy');
 });

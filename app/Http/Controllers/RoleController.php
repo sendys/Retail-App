@@ -84,9 +84,9 @@ class RoleController extends Controller
      */
     public function edit(Role $role)
     {
-        if (!auth()->user()->can('edit role')) {
+        /* if (!auth()->user()->can('edit role')) {
             abort(403, 'Anda tidak memiliki izin untuk menambah user.');
-        }
+        } */
 
         $permissions = Permission::all()->groupBy('group');
         return view('roles.edit', compact('role', 'permissions'));
@@ -124,9 +124,9 @@ class RoleController extends Controller
      */
     public function destroy(Role $role)
     {
-        if (!auth()->user()->can('delete role')) {
+        /* if (!auth()->user()->can('delete role')) {
             abort(403, 'Anda tidak memiliki izin untuk menambah user.');
-        }
+        } */
 
         $role->delete();
 
