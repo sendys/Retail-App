@@ -12,17 +12,23 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->uuid('uuid')->unique()->after('id');
+            $table->uuid('uuid')->after('id')->unique()->nullable();
+
+            // Optional: Isi UUID untuk data yang sudah ada
+            \App\Models\Customer::whereNull('uuid')->get()->each(function ($customer) {
+                $customer->uuid = Str::uuid();
+                $customer->save();
+            });
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+    public function down(): voi
     {
         Schema::table('customer', function (Blueprint $table) {
-            $table->dropColumn(['uuid']);
+            $table->dropColumn('uuid');
         });
     }
 };

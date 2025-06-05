@@ -12,7 +12,14 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('chart_of_account', function (Blueprint $table) {
-            $table->uuid('uuid')->unique()->after('id');
+            $table->uuid('uuid')->after('id')->unique()->nullable();
+
+            // Optional: Isi UUID untuk data yang sudah ada
+            \App\Models\ChartOfAccount::whereNull('uuid')->get()->each(function ($coa) {
+                $coa->uuid = Str::uuid();
+                $coa->save();
+            });
+
         });
     }
 
@@ -22,7 +29,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('chart_of_account', function (Blueprint $table) {
-            $table->dropColumn(['uuid']);
+            $table->dropColumn('uuid');
         });
     }
 };

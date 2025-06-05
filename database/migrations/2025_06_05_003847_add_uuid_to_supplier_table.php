@@ -12,7 +12,13 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('supplier', function (Blueprint $table) {
-            $table->uuid('uuid')->unique()->after('id');
+            $table->uuid('uuid')->after('id')->unique()->nullable();
+
+            // Optional: Isi UUID untuk data yang sudah ada
+            \App\Models\Supplier::whereNull('uuid')->get()->each(function ($supplier) {
+                $supplier->uuid = Str::uuid();
+                $supplier->save();
+            });
         });
     }
 
@@ -22,7 +28,7 @@ return new class extends Migration
     public function down(): void
     {
         Schema::table('supplier', function (Blueprint $table) {
-            $table->dropColumn(['uuid']);
+            $table->dropColumn('uuid');
         });
     }
 };
